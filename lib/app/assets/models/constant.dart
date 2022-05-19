@@ -14,15 +14,18 @@ class BaseUrl {
 Color kLightgreen = Color(0xFFB2DBBF);
 Color kDarkerGreen = Color(0xFF70c1B3);
 Color kYellow = Color(0xFFF3FFBD);
-Color kWhite = Colors.white;
+Color kWhite = Color.fromARGB(255, 207, 206, 206);
+Color kDarkBlue = Colors.blue.shade900;
+Color kLightBlue = Colors.blue.shade50;
 
 InputDecoration kTextFieldDecoration = InputDecoration(
   contentPadding: EdgeInsets.only(left: 20, top: 5, bottom: 5),
   filled: true,
   fillColor: Color.fromRGBO(255, 255, 255, 0.3),
-  focusColor: Color.fromRGBO(211, 211, 211, 1.0),
+  focusColor: Colors.black,
   hintText: '',
-  hintStyle: TextStyle(color: Color(0xFF70C183), fontWeight: FontWeight.w800),
+  hintStyle:
+      TextStyle(color: Colors.blue.shade300, fontWeight: FontWeight.w800),
   enabledBorder: OutlineInputBorder(
     borderSide: BorderSide(color: kWhite, width: 3.0),
     borderRadius: BorderRadius.all(
