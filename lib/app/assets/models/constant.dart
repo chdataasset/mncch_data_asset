@@ -65,3 +65,5 @@ dynamic kDecorPurple = BoxDecoration(
     colors: [Colors.white, Colors.black45],
   ),
 );
+
+dynamic kBoxRounded = BoxDecoration(borderRadius: BorderRadius.circular(30));
