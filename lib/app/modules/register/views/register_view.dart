@@ -30,18 +30,22 @@ class RegisterView extends GetView<RegisterController> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                TextFormField(),
                 Padding(
                   padding: const EdgeInsets.only(top: 18.0),
                   child: Container(
                     width: width * 0.6,
                     height: 50,
                     child: TextFormField(
-                      // controller: Control,
+                      onChanged: (value) => controller.userName.value = value,
+                      controller: controller.userNameC,
+                      validator:
+                          controller.validator(controller.userName.value),
                       keyboardType: TextInputType.name,
                       autocorrect: false,
-
-                      decoration:
-                          kTextFieldDecoration.copyWith(label: Text("Name")),
+                      decoration: kTextFieldDecoration.copyWith(
+                        label: Text("Name"),
+                      ),
                     ),
                   ),
                 ),
@@ -52,8 +56,10 @@ class RegisterView extends GetView<RegisterController> {
                   width: width * 0.6,
                   height: 50,
                   child: TextFormField(
-                    // controller: Control,
-                    keyboardType: TextInputType.emailAddress,
+                    onChanged: (value) => controller.email.value = value,
+                    controller: controller.emailC,
+                    validator: controller.validator(controller.email.value),
+                    keyboardType: TextInputType.name,
                     autocorrect: false,
                     decoration:
                         kTextFieldDecoration.copyWith(label: Text("Email")),
