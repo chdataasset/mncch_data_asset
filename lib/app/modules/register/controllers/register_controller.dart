@@ -6,7 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 SupabaseClient client = Supabase.instance.client;
 
 class RegisterController extends GetxController {
-  RxBool isShowHide = false.obs;
+  RxBool isShowHide = true.obs;
   RxBool isLoading = false.obs;
 
   TextEditingController userNameC = TextEditingController();
@@ -25,7 +25,7 @@ class RegisterController extends GetxController {
 
   String? validatePassword(String value) {
     if (value.length < 6 || value.isEmpty) {
-      return "Password Harus Diisi";
+      return "Password  minimal 6 karakter";
     }
     return null;
   }
@@ -38,7 +38,6 @@ class RegisterController extends GetxController {
   }
 
   void validRegister() {
-    isLoading.value = true;
     final isValid = registerFormKey.currentState!.validate();
     if (!isValid) {
       return;
@@ -47,10 +46,10 @@ class RegisterController extends GetxController {
     }
 
     registerFormKey.currentState!.save();
-    isLoading.value = false;
   }
 
   void _register() async {
+    isLoading.value = true;
     try {
       GotrueSessionResponse res =
           await client.auth.signUp(emailC.text, passwordC.text);
@@ -79,31 +78,17 @@ class RegisterController extends GetxController {
       } else {
         Get.defaultDialog(
             title: "Attantion",
-            middleText: "Registrasi",
+            middleText: "Registrasi Gagal",
             textConfirm: "Confirm",
             onConfirm: () {
               Get.back();
               Get.back();
             });
       }
-
-      // print((Response != null) ? "ada data" : "tidak ada data");
-      // var hasil = json.decode(Response.body) as Map<String, dynamic>;
-
-      // print(hasil);
-      // int value = hasil["value"];
-      // if (value == 1) {
-      //   Get.defaultDialog(
-      //       title: "Register",
-      //       middleText: "Register Berhasil Ditambahkan",
-      //       onConfirm: () {
-      //         Get.back();
-      //         Get.back();
-      //       });
-      // }
     } catch (err) {
-      print(err);
+      Get.snackbar("Error", "${err}", duration: Duration(seconds: 2));
     }
+    isLoading.value = false;
   }
 
   @override

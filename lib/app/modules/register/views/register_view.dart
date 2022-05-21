@@ -42,7 +42,7 @@ class RegisterView extends GetView<RegisterController> {
                     padding: const EdgeInsets.only(top: 18.0),
                     child: Container(
                       width: width * 0.85,
-                      height: 70,
+                      height: 50,
                       child: TextFormField(
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -71,7 +71,7 @@ class RegisterView extends GetView<RegisterController> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: 70,
+                    height: 50,
                     child: TextFormField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -100,7 +100,7 @@ class RegisterView extends GetView<RegisterController> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: 70,
+                    height: 50,
                     child: Obx(() => TextFormField(
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
