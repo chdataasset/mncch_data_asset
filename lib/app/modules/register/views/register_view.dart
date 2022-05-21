@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -22,91 +24,142 @@ class RegisterView extends GetView<RegisterController> {
             ),
           )),
       body: Center(
-        child: Container(
+        child: SafeArea(
+          child: Container(
+            margin: EdgeInsets.only(top: 16, left: 16, right: 16),
             alignment: Alignment.center,
-            width: width * 0.75,
+            width: width * 0.85,
             height: 360,
-            color: Color.fromARGB(255, 141, 141, 141),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextFormField(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 18.0),
-                  child: Container(
-                    width: width * 0.6,
-                    height: 50,
-                    child: TextFormField(
-                      onChanged: (value) => controller.userName.value = value,
-                      controller: controller.userNameC,
-                      validator:
-                          controller.validator(controller.userName.value),
-                      keyboardType: TextInputType.name,
-                      autocorrect: false,
-                      decoration: kTextFieldDecoration.copyWith(
-                        label: Text("Name"),
+            color: Color.fromARGB(255, 227, 224, 224),
+            child: SingleChildScrollView(
+                child: Form(
+              key: controller.registerFormKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 18.0),
+                    child: Container(
+                      width: width * 0.85,
+                      height: 70,
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          labelText: "User Name",
+                          prefixIcon: Icon(Icons.person),
+                        ),
+                        autocorrect: false,
+                        keyboardType: TextInputType.name,
+                        controller: controller.userNameC,
+                        onChanged: (value) {
+                          value = controller.userNameC.text;
+                        },
+                        onSaved: (value) {
+                          controller.userNameC.text = value!;
+                        },
+                        validator: (value) {
+                          return controller.validateName(value!);
+                        },
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: width * 0.6,
-                  height: 50,
-                  child: TextFormField(
-                    onChanged: (value) => controller.email.value = value,
-                    controller: controller.emailC,
-                    validator: controller.validator(controller.email.value),
-                    keyboardType: TextInputType.name,
-                    autocorrect: false,
-                    decoration:
-                        kTextFieldDecoration.copyWith(label: Text("Email")),
+                  SizedBox(
+                    height: 16,
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: width * 0.6,
-                  height: 50,
-                  child: TextFormField(
-                    obscureText: true,
-                    keyboardType: TextInputType.name,
-                    autocorrect: false,
-                    decoration:
-                        kTextFieldDecoration.copyWith(label: Text("Password")),
+                  Container(
+                    width: double.infinity,
+                    height: 70,
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: "Email",
+                        prefixIcon: Icon(Icons.email_outlined),
+                      ),
+                      autocorrect: false,
+                      keyboardType: TextInputType.emailAddress,
+                      obscureText: false,
+                      controller: controller.emailC,
+                      onChanged: (value) {
+                        value = controller.emailC.text;
+                      },
+                      onSaved: (value) {
+                        controller.emailC.text = value!;
+                      },
+                      validator: (value) {
+                        return controller.validateEmail(value!);
+                      },
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  width: width * 0.6,
-                  height: 50,
-                  child: TextFormField(
-                    obscureText: true,
-                    keyboardType: TextInputType.name,
-                    autocorrect: false,
-                    decoration: kTextFieldDecoration.copyWith(
-                        label: Text("Confirm Password")),
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 18.0),
-                  child: Container(
+                  Container(
+                    width: double.infinity,
+                    height: 70,
+                    child: Obx(() => TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            labelText: "Password",
+                            prefixIcon: Icon(Icons.key_outlined),
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  controller.isShowHide.toggle();
+                                },
+                                icon: Icon(controller.isShowHide.value
+                                    ? Icons.visibility_off
+                                    : Icons.visibility)),
+                          ),
+                          autocorrect: false,
+                          keyboardType: TextInputType.visiblePassword,
+                          obscureText:
+                              (controller.isShowHide.value) ? true : false,
+                          controller: controller.passwordC,
+                          onChanged: (value) {
+                            value = controller.passwordC.text;
+                          },
+                          onSaved: (value) {
+                            controller.passwordC.text = value!;
+                          },
+                          validator: (value) {
+                            return controller.validatePassword(value!);
+                          },
+                        )),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                      margin: EdgeInsets.all(30),
                       decoration: kBoxRounded,
-                      width: width * 0.6,
+                      width: double.infinity,
                       height: 50,
-                      child: ElevatedButton(
-                          onPressed: () {}, child: Text("Submit"))),
-                )
-              ],
+                      child: Obx(() => ElevatedButton(
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                          ),
+                          onPressed: () {
+                            // controller.isLoading.value = true;
+                            controller.validRegister();
+                          },
+                          child: (controller.isLoading.value)
+                              ? Text("LOADING...")
+                              : Text("SUBMIT"))))
+                ],
+              ),
             )),
+          ),
+        ),
       ),
     );
   }

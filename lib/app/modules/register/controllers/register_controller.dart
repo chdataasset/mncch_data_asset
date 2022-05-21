@@ -1,3 +1,4 @@
+import 'package:ch_data_asset/app/assets/models/tbl_user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -5,82 +6,103 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 SupabaseClient client = Supabase.instance.client;
 
 class RegisterController extends GetxController {
-  //TODO: Implement LoginController
-  RxString userName = "".obs;
-  RxString email = "".obs;
+  RxBool isShowHide = false.obs;
+  RxBool isLoading = false.obs;
 
-  final loginFormKey = GlobalKey<FormState>();
-  final userNameC = TextEditingController();
-  final emailC = TextEditingController();
-  final pass1C = TextEditingController();
-  final pass2C = TextEditingController();
+  TextEditingController userNameC = TextEditingController();
+  TextEditingController emailC = TextEditingController();
+  TextEditingController passwordC = TextEditingController();
 
-  validator(String value) {
-    if (value.isEmpty) {
-      return 'Please this field must be filled';
+  final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
+  SupabaseClient client = Supabase.instance.client;
+
+  String? validateName(String value) {
+    if (value.length <= 0 || value.isEmpty) {
+      return "Username Harus Diisi";
     }
     return null;
   }
 
-  validator_pass1(String pass1) {
-    if (pass1.isEmpty) {
-      return 'Please this field must be filled';
+  String? validatePassword(String value) {
+    if (value.length < 6 || value.isEmpty) {
+      return "Password Harus Diisi";
     }
     return null;
   }
 
-  validator_pass2(String pass2) {
-    if (pass2.isEmpty) {
-      return 'Please this field must be filled';
+  String? validateEmail(String value) {
+    if (!GetUtils.isEmail(value)) {
+      return "Provide valid Email";
     }
     return null;
   }
 
-  void register() async {
-    if (pass1C.value != pass2C.value) {
-      Get.defaultDialog(
-          title: "Error",
-          middleText: "Password Tidak Sesuai",
-          textConfirm: "Confirm",
-          onConfirm: () {
-            userNameC.text = "";
-            emailC.text = "";
-            pass1C.text = "";
-            Get.back();
-            Get.back();
-          });
-      return null;
+  void validRegister() {
+    isLoading.value = true;
+    final isValid = registerFormKey.currentState!.validate();
+    if (!isValid) {
+      return;
     } else {
-      try {
-        GotrueSessionResponse res =
-            await client.auth.signUp(emailC.text, pass2C.text);
+      _register();
+    }
 
-        print(res.data);
-        if (res.error == null) {
-          await client.from("tbl_user").insert({
-            "email": client.auth.currentUser!.email,
-            "username": userNameC.text,
-            "created_at": DateTime.now().toIso8601String(),
-            "user_id": client.auth.currentUser!.id,
-          }).execute();
+    registerFormKey.currentState!.save();
+    isLoading.value = false;
+  }
 
-          Get.defaultDialog(
-              title: "Attantion",
-              middleText: "Silahkan Cek Email Anda",
-              textConfirm: "Confirm",
-              onConfirm: () {
-                userNameC.text = "";
-                emailC.text = "";
-                pass1C.text = "";
-                Get.back();
-                Get.back();
-              });
-        } else {
-          print("register gagal");
-        }
-      } catch (err) {
-        print(err);
+  void _register() async {
+    try {
+      GotrueSessionResponse res =
+          await client.auth.signUp(emailC.text, passwordC.text);
+
+      print(res.data);
+
+      if (res.error == null) {
+        await client.from("tbl_user").insert({
+          "user_id": client.auth.currentUser!.id,
+          "username": userNameC.text,
+          "email": client.auth.currentUser!.email,
+          "created_at": DateTime.now().toIso8601String(),
+        }).execute();
+
+        Get.defaultDialog(
+            title: "Attantion",
+            middleText: "Silahkan Cek Email Anda",
+            textConfirm: "Confirm",
+            onConfirm: () {
+              userNameC.text = "";
+              emailC.text = "";
+              passwordC.text = "";
+              Get.back();
+              Get.back();
+            });
+      } else {
+        Get.defaultDialog(
+            title: "Attantion",
+            middleText: "Registrasi",
+            textConfirm: "Confirm",
+            onConfirm: () {
+              Get.back();
+              Get.back();
+            });
       }
+
+      // print((Response != null) ? "ada data" : "tidak ada data");
+      // var hasil = json.decode(Response.body) as Map<String, dynamic>;
+
+      // print(hasil);
+      // int value = hasil["value"];
+      // if (value == 1) {
+      //   Get.defaultDialog(
+      //       title: "Register",
+      //       middleText: "Register Berhasil Ditambahkan",
+      //       onConfirm: () {
+      //         Get.back();
+      //         Get.back();
+      //       });
+      // }
+    } catch (err) {
+      print(err);
     }
   }
 
@@ -88,14 +110,16 @@ class RegisterController extends GetxController {
   void onInit() {
     // Simulating obtaining the user name from some local storage
     super.onInit();
+    userNameC = TextEditingController();
+    emailC = TextEditingController();
+    passwordC = TextEditingController();
   }
 
   @override
   void onClose() {
     userNameC.dispose();
     emailC.dispose();
-    pass1C.dispose();
-    pass2C.dispose();
+    passwordC.dispose();
     super.onClose();
   }
 }
