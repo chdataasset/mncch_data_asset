@@ -8,7 +8,6 @@ class LoginController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool rememberme = false.obs;
   RxBool isHide = false.obs;
-  RxBool isRemember = false.obs;
 
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
@@ -50,14 +49,18 @@ class LoginController extends GetxController {
           .signIn(email: emailC.text, password: passwordC.text);
       if (res.error == null) {
         if (rememberme.isTrue) {
+          print(rememberme.value);
           //kalau dichecklist simpan data ke get storage
           final box = GetStorage();
           box.erase();
-          box.write("dataLogin", {
-            "email": client.auth.currentUser!.email,
-            "password": passwordC.text,
-            "rememberme": rememberme.value,
-          });
+          box.write(
+            "dataLogin",
+            {
+              "email": client.auth.currentUser!.email,
+              "password": passwordC.text,
+              "rememberme": rememberme.value,
+            },
+          );
         }
 
         Get.offAndToNamed(Routes.HOME);

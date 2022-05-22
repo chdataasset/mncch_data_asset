@@ -2,6 +2,7 @@ import 'package:ch_data_asset/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../assets/models/constant.dart';
 import '../controllers/login_controller.dart';
@@ -11,6 +12,18 @@ class LoginViewMobile extends GetView<LoginController> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final box = GetStorage();
+    if (box.read("dataLogin") != null) {
+      print("data login ada");
+      final box = GetStorage();
+      controller.emailC.text = box.read("dataLogin")["email"];
+      controller.passwordC.text = box.read("dataLogin")["password"];
+      controller.rememberme.value = box.read("dataLogin")["rememberme"];
+      // controller.validLogin();
+    } else {
+      print("data login tidak ada");
+    }
+
     return Container(
       decoration: BoxDecoration(
         image: new DecorationImage(
@@ -159,9 +172,9 @@ class LoginViewMobile extends GetView<LoginController> {
                                           controlAffinity:
                                               ListTileControlAffinity.leading,
                                           title: Text("Remember Me"),
-                                          value: controller.isRemember.value,
+                                          value: controller.rememberme.value,
                                           onChanged: (value) {
-                                            controller.isRemember.toggle();
+                                            controller.rememberme.toggle();
                                           },
                                         ),
                                       ),
@@ -178,9 +191,7 @@ class LoginViewMobile extends GetView<LoginController> {
                                               : Text("SUBMIT"),
                                         ),
                                       ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                      Wrap(
                                         children: [
                                           Text("Don't have an account?"),
                                           TextButton(
