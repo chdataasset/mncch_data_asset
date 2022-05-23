@@ -19,8 +19,11 @@ class HomeController extends GetxController {
     List<TableListHome> allListHome = [];
     isLoading.value = true;
     try {
-      PostgrestResponse<dynamic> response =
-          await client.from("tbl_listhome").select().execute();
+      PostgrestResponse<dynamic> response = await client
+          .from("tbl_listhome")
+          .select()
+          .order("urut", ascending: true)
+          .execute();
 
       List<TableListHome> dataList =
           TableListHome.fromJsonList((response.data as List));
