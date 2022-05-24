@@ -7,6 +7,8 @@ import '../modules/login/views/login.dart';
 import '../modules/login/views/login_view_mobile.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/tambah/bindings/tambah_binding.dart';
+import '../modules/tambah/views/tambah_view.dart';
 
 part 'app_routes.dart';
 
@@ -30,6 +32,11 @@ class AppPages {
       name: _Paths.REGISTER,
       page: () => RegisterView(),
       binding: RegisterBinding(),
+    ),
+    GetPage(
+      name: _Paths.TAMBAH,
+      page: () => TambahView(),
+      binding: TambahBinding(),
     ),
   ];
 }

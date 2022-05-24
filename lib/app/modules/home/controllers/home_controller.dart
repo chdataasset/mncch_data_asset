@@ -1,3 +1,4 @@
+import 'package:ch_data_asset/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -36,10 +37,11 @@ class HomeController extends GetxController {
         (element) {
           allListHome.add(
             TableListHome(
-                id: element.id,
-                urut: element.urut,
-                judul: element.judul,
-                icon: element.icon),
+              id: element.id,
+              urut: element.urut,
+              judul: element.judul,
+              icon: element.icon,
+            ),
           );
         },
       );
@@ -51,6 +53,28 @@ class HomeController extends GetxController {
 
     isLoading.value = false;
     Get.back();
+  }
+
+  void GetRoute(route) {
+    switch (route) {
+      case 0:
+        print(route);
+        Get.toNamed(Routes.TAMBAH);
+        break;
+      case 1:
+        print(route);
+        // Get.toNamed(Routes.TAMBAH)
+        break;
+      case 2:
+        // Get.toNamed(Routes.TAMBAH)
+        break;
+      case 3:
+        // Get.toNamed(Routes.TAMBAH)
+        break;
+      case 4:
+        // Get.toNamed(Routes.TAMBAH)
+        break;
+    }
   }
 
   @override

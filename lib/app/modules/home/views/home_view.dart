@@ -1,11 +1,11 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:ch_data_asset/app/assets/models/tbl_listhome.dart';
+import 'package:ch_data_asset/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
 import '../controllers/home_controller.dart';
-import './widgets/cardlist.dart';
 
 class HomeView extends GetView<HomeController> {
   @override
@@ -79,13 +79,15 @@ class HomeView extends GetView<HomeController> {
                                             ),
                                           ),
                                           child: GridView.builder(
+                                            controller: controllerdrag,
                                             gridDelegate:
                                                 SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 3,
                                               crossAxisSpacing: 2,
                                               mainAxisSpacing: 2,
                                               // mainAxisExtent: 5,
-                                              // childAspectRatio: 1 / 1,
+
+                                              childAspectRatio: 4 / 4,
                                             ),
                                             // controller: controllerdrag,
                                             itemCount:
@@ -95,33 +97,78 @@ class HomeView extends GetView<HomeController> {
                                                   controller.allList[index];
 
                                               return Padding(
-                                                padding:
-                                                    const EdgeInsets.all(18.0),
-                                                child: Column(children: [
-                                                  InkWell(
-                                                    onTap: () {},
-                                                    child: CircleAvatar(
-                                                      radius: 35,
-                                                      backgroundImage:
-                                                          AssetImage(
-                                                              "${allData.icon}"),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 8,
-                                                  ),
-                                                  Container(
-                                                    child: Text(
-                                                      "${allData.judul}",
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ),
-                                                ]),
-                                              );
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 30.0,
+                                                          left: 10,
+                                                          right: 10,
+                                                          bottom: 20),
+                                                  child: Column(
+                                                    children: [
+                                                      ElevatedButton(
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            shape:
+                                                                CircleBorder(),
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    1),
+
+                                                            primary: Color.fromARGB(
+                                                                255,
+                                                                212,
+                                                                216,
+                                                                219), // <-- Button color
+                                                            onPrimary: Colors
+                                                                .red, // <-- Splash color
+                                                          ),
+                                                          onPressed: (() {
+                                                            switch (index) {
+                                                              case 0:
+                                                                Get.toNamed(
+                                                                    Routes
+                                                                        .TAMBAH);
+                                                                break;
+                                                              case 1:
+
+                                                                // Get.toNamed(Routes.TAMBAH)
+                                                                break;
+                                                              case 2:
+                                                                // Get.toNamed(Routes.TAMBAH)
+                                                                break;
+                                                              case 3:
+                                                                // Get.toNamed(Routes.TAMBAH)
+                                                                break;
+                                                              case 4:
+                                                                // Get.toNamed(Routes.TAMBAH)
+                                                                break;
+                                                            }
+                                                          }),
+                                                          child: Column(
+                                                            children: [
+                                                              Image(
+                                                                image: AssetImage(
+                                                                    "${allData.icon}"),
+                                                              ),
+                                                            ],
+                                                          )),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Flexible(
+                                                        child: Text(
+                                                          "${allData.judul}",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 12,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ));
                                             },
                                           )),
                                     );

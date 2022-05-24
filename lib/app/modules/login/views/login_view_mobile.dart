@@ -191,21 +191,24 @@ class LoginViewMobile extends GetView<LoginController> {
                                               : Text("SUBMIT"),
                                         ),
                                       ),
-                                      Wrap(
+                                      Row(
                                         children: [
                                           Text("Don't have an account?"),
-                                          TextButton(
-                                              onPressed: () {
-                                                Get.toNamed(Routes.REGISTER);
-                                              },
-                                              child: Text(
-                                                "Sign Up",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.blue,
-                                                    fontStyle:
-                                                        FontStyle.italic),
-                                              ))
+                                          Expanded(
+                                            child: TextButton(
+                                                onPressed: () {
+                                                  Get.toNamed(Routes.REGISTER);
+                                                },
+                                                child: Text(
+                                                  "Sign Up",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.blue,
+                                                      fontStyle:
+                                                          FontStyle.italic),
+                                                )),
+                                          )
                                         ],
                                       )
                                     ],
