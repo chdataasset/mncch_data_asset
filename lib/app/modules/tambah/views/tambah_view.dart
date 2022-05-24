@@ -9,13 +9,46 @@ class TambahView extends GetView<TambahController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('TambahView'),
+        title: Text('Input Data'),
         centerTitle: true,
       ),
-      body: Center(
-        child: Text(
-          'TambahView is working',
-          style: TextStyle(fontSize: 20),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Form(
+                key: controller.registerFormKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: "Id Asset",
+                        prefixIcon: Icon(Icons.person),
+                      ),
+                      autocorrect: false,
+                      keyboardType: TextInputType.name,
+                      controller: controller.idAssetC,
+                      onChanged: (value) {
+                        value = controller.idAssetC.text;
+                      },
+                      onSaved: (value) {
+                        controller.idAssetC.text = value!;
+                      },
+                      validator: (value) {
+                        return controller.validateidAsset(value!);
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
