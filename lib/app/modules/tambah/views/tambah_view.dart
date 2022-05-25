@@ -1,3 +1,5 @@
+import 'package:image_picker/image_picker.dart';
+
 import '../views/widget/buildimage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -10,12 +12,9 @@ class TambahView extends GetView<TambahController> {
   @override
   Widget build(BuildContext context) {
     final List<String> imgList = [
-      'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-      'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
-      'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
-      'https://images.unsplash.com/photo-1523205771623-e0faa4d2813d?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=89719a0d55dd05e2deae4120227e6efc&auto=format&fit=crop&w=1953&q=80',
-      'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-      'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
+      // 'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
+      // 'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
+      // 'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=94a1e718d89ca60a6337a6008341ca50&auto=format&fit=crop&w=1950&q=80',
     ];
 
     return Scaffold(
@@ -48,6 +47,9 @@ class TambahView extends GetView<TambahController> {
                     SizedBox(
                       height: 12,
                     ),
+                    SizedBox(
+                      height: 12,
+                    ),
                     TextFormField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -61,6 +63,7 @@ class TambahView extends GetView<TambahController> {
                       controller: controller.idAssetC,
                       onChanged: (value) {
                         value = controller.idAssetC.text;
+                        controller.isiBarcode.value = value;
                       },
                       onSaved: (value) {
                         controller.idAssetC.text = value!;
@@ -174,37 +177,102 @@ class TambahView extends GetView<TambahController> {
                       onChanged: (value) => value = controller.dateC.text,
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 12,
                     ),
-                    Column(
-                      children: [
-                        InkWell(
-                          onDoubleTap: () {},
-                          child: Center(
-                            child: CarouselSlider.builder(
-                                options: CarouselOptions(
-                                  height: 200,
-                                  // enlargeCenterPage: true,
-                                  enableInfiniteScroll: true,
-                                  // initialPage: 2,
+                    Center(
+                      child: InkWell(
+                        onDoubleTap: () {
+                          Get.bottomSheet(
+                            Container(
+                                height: 150,
+                                color: Colors.greenAccent,
+                                child: Column(
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        controller.upload(ImageSource.camera);
+                                        Get.back();
+                                      },
+                                      child: Text(
+                                        "Camera",
+                                        textScaleFactor: 2,
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        controller.upload(ImageSource.gallery);
+                                        Get.back();
+                                      },
+                                      child: Text(
+                                        "Gallery",
+                                        textScaleFactor: 2,
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                            barrierColor: Colors.red[50],
+                            isDismissible: true,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(35),
+                                side:
+                                    BorderSide(width: 5, color: Colors.black)),
+                            enableDrag: false,
+                          );
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 30, right: 30),
+                          height: 150,
+                          width: double.infinity,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 50, right: 50),
+                                  child: Obx(
+                                    () => (controller.imageUrl.value == "" ||
+                                            controller.imageUrl.value == "")
+                                        ? Container(
+                                            width: double.infinity * 0.75,
+                                            height: 200,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Image.asset(
+                                                "lib/app/assets/images/noimage.png",
+                                                // "/data/user/0/com.example.owl_flutter/app_flutter/2022-05-06T10:32:23.274935.jpg",
+                                                fit: BoxFit.contain,
+                                              ),
+                                            ),
+                                          )
+                                        : Container(
+                                            width: double.infinity,
+                                            height: 150,
+                                            child: (controller.filebytes !=
+                                                    null)
+                                                ? Image.memory(
+                                                    controller.filebytes,
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                : Image.asset(
+                                                    "lib/app/assets/images/noimage.png"),
+                                          ),
+                                  ),
                                 ),
-                                itemCount: imgList.length,
-                                itemBuilder: (context, index, realIndex) {
-                                  final urlImage = imgList[index];
-                                  return buildimage(
-                                      urlImage: urlImage, index: index);
-                                }),
+                              ],
+                            ),
                           ),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text("KLik 2X Untuk Ganti Gambar",
-                            style: TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontSize: 10,
-                                color: Colors.red))
-                      ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 2,
+                    ),
+                    Text(
+                      "Tap 2 kali Untuk Ganti Gambar",
+                      textScaleFactor: 1,
+                      style: TextStyle(
+                          color: Colors.red, fontStyle: FontStyle.italic),
                     ),
                     SizedBox(
                       height: 12,
