@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ch_data_asset">
+
+
+    
    <application
         android:label="ch_data_asset"
         android:name="${applicationName}"

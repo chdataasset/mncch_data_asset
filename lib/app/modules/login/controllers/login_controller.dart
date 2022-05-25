@@ -67,7 +67,7 @@ class LoginController extends GetxController {
       } else {
         Get.defaultDialog(
             title: "Error",
-            middleText: "Username/Password Salah",
+            middleText: "${res.error}",
             textConfirm: "Ok",
             onConfirm: () {
               Get.back();

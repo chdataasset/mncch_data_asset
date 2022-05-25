@@ -6,7 +6,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../assets/models/tbl_listhome.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
   RxList<TableListHome> allList = List<TableListHome>.empty().obs;
 
   RxBool isLoading = false.obs;
@@ -82,5 +81,11 @@ class HomeController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     dataFuture = getAllList();
+  }
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    
+    super.onClose();
   }
 }
