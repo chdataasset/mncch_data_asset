@@ -4,10 +4,13 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../../models/tbl_user.dart';
+
 class LoginController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool rememberme = false.obs;
   RxBool isHide = false.obs;
+  RxString resultUserName = "".obs;
 
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
@@ -49,7 +52,6 @@ class LoginController extends GetxController {
           .signIn(email: emailC.text, password: passwordC.text);
       if (res.error == null) {
         if (rememberme.isTrue) {
-          print(rememberme.value);
           //kalau dichecklist simpan data ke get storage
           final box = GetStorage();
           box.erase();
@@ -67,7 +69,7 @@ class LoginController extends GetxController {
       } else {
         Get.defaultDialog(
             title: "Error",
-            middleText: "${res.error}",
+            middleText: "Error ${res.error}",
             textConfirm: "Ok",
             onConfirm: () {
               Get.back();

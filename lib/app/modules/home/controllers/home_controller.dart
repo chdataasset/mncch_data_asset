@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../assets/models/tbl_listhome.dart';
+import '../../../../models/tbl_listhome.dart';
 
 class HomeController extends GetxController {
   RxList<TableListHome> allList = List<TableListHome>.empty().obs;
@@ -32,18 +32,16 @@ class HomeController extends GetxController {
 
       allList.refresh();
 
-      allList.forEach(
-        (element) {
-          allListHome.add(
-            TableListHome(
-              id: element.id,
-              urut: element.urut,
-              judul: element.judul,
-              icon: element.icon,
-            ),
-          );
-        },
-      );
+      for (var element in allList) {
+        allListHome.add(
+          TableListHome(
+            id: element.id,
+            urut: element.urut,
+            judul: element.judul,
+            icon: element.icon,
+          ),
+        );
+      }
 
       print(allListHome);
     } catch (err) {
@@ -82,10 +80,11 @@ class HomeController extends GetxController {
     super.onInit();
     dataFuture = getAllList();
   }
+
   @override
   void onClose() {
     // TODO: implement onClose
-    
+
     super.onClose();
   }
 }

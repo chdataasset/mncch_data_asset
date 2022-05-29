@@ -1,17 +1,16 @@
 // To parse this JSON data, do
 //
-//     final tabelMasterItem = tabelMasterItemFromJson(jsonString);
+//     final tblMasterItem = tblMasterItemFromJson(jsonString);
 
 import 'dart:convert';
 
-TabelMasterItem tabelMasterItemFromJson(String str) =>
-    TabelMasterItem.fromJson(json.decode(str));
+TblMasterItem tblMasterItemFromJson(String str) =>
+    TblMasterItem.fromJson(json.decode(str));
 
-String tabelMasterItemToJson(TabelMasterItem data) =>
-    json.encode(data.toJson());
+String tblMasterItemToJson(TblMasterItem data) => json.encode(data.toJson());
 
-class TabelMasterItem {
-  TabelMasterItem({
+class TblMasterItem {
+  TblMasterItem({
     required this.id,
     required this.idAsset,
     required this.nameAsset,
@@ -20,6 +19,7 @@ class TabelMasterItem {
     required this.tglBeli,
     required this.userCreated,
     required this.createdAt,
+    required this.imageUrl,
   });
 
   int id;
@@ -30,9 +30,9 @@ class TabelMasterItem {
   String tglBeli;
   String userCreated;
   String createdAt;
+  String imageUrl;
 
-  factory TabelMasterItem.fromJson(Map<String, dynamic> json) =>
-      TabelMasterItem(
+  factory TblMasterItem.fromJson(Map<String, dynamic> json) => TblMasterItem(
         id: json["id"],
         idAsset: json["id_asset"],
         nameAsset: json["name_asset"],
@@ -41,6 +41,7 @@ class TabelMasterItem {
         tglBeli: json["tgl_beli"],
         userCreated: json["user_created"],
         createdAt: json["created_at"],
+        imageUrl: json["imageUrl"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -52,9 +53,11 @@ class TabelMasterItem {
         "tgl_beli": tglBeli,
         "user_created": userCreated,
         "created_at": createdAt,
+        "imageUrl": imageUrl,
       };
-  static List<TabelMasterItem> fromJsonList(List list) {
-    if (list == null) return List<TabelMasterItem>.empty();
-    return list.map((item) => TabelMasterItem.fromJson(item)).toList();
+
+  static List<TblMasterItem> fromJsonList(List list) {
+    if (list == null) return List<TblMasterItem>.empty();
+    return list.map((item) => TblMasterItem.fromJson(item)).toList();
   }
 }

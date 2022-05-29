@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'app/routes/app_pages.dart';
 
-import './app/assets/models/constant.dart';
+import 'models/constant.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

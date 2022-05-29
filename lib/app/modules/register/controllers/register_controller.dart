@@ -1,4 +1,3 @@
-import 'package:ch_data_asset/app/assets/models/tbl_user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

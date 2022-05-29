@@ -9,6 +9,8 @@ class BaseUrl {
   static const cBaseUrl = "https://jumdbwppzvzgfyyseoia.supabase.co";
   static const cAnonKey =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1bWRid3BwenZ6Z2Z5eXNlb2lhIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTI5Mzc5NDIsImV4cCI6MTk2ODUxMzk0Mn0.Mmny5lslBs4SoC0s0PI8gmsjKyYkSwA7RRfvLwmBqUQ";
+  static const cPathImgUrl =
+      'https://jumdbwppzvzgfyyseoia.supabase.co/storage/v1/object/public/images/images/';
 }
 
 Color kLightgreen = Color(0xFFB2DBBF);
@@ -17,7 +19,7 @@ Color kYellow = Color(0xFFF3FFBD);
 Color kWhite = Color.fromARGB(255, 207, 206, 206);
 Color kDarkBlue = Colors.blue.shade900;
 Color kLightBlue = Colors.blue.shade50;
-
+String noimage = "/assets/images/noimage.png";
 InputDecoration kTextFieldDecoration = InputDecoration(
   contentPadding: EdgeInsets.only(left: 20, top: 5, bottom: 5),
   filled: true,

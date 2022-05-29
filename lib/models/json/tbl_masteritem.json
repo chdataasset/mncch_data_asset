@@ -6,5 +6,7 @@
     "pic_asset":"",
     "tgl_beli":"",
     "user_created":"",
-    "created_at":""
+    "created_at":"",
+    "imageUrl":""
+
 }

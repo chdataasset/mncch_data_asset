@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../../assets/models/constant.dart';
+import '../../../../models/constant.dart';
 import '../controllers/login_controller.dart';
 
 class LoginViewMobile extends GetView<LoginController> {
@@ -14,7 +14,6 @@ class LoginViewMobile extends GetView<LoginController> {
     final height = MediaQuery.of(context).size.height;
     final box = GetStorage();
     if (box.read("dataLogin") != null) {
-      print("data login ada");
       final box = GetStorage();
       controller.emailC.text = box.read("dataLogin")["email"];
       controller.passwordC.text = box.read("dataLogin")["password"];
@@ -27,7 +26,7 @@ class LoginViewMobile extends GetView<LoginController> {
     return Container(
       decoration: BoxDecoration(
         image: new DecorationImage(
-          image: AssetImage("lib/app/assets/images/background.jpg"),
+          image: AssetImage("assets/images/background.jpg"),
           fit: BoxFit.cover,
         ),
       ),
@@ -60,7 +59,7 @@ class LoginViewMobile extends GetView<LoginController> {
                       width: width * 0.8,
                       height: 150,
                       child: Image.asset(
-                        "lib/app/assets/images/mncchannels.png",
+                        "assets/images/mncchannels.png",
                         fit: BoxFit.fill,
                       ),
                     ),

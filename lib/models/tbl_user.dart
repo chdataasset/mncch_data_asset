@@ -21,7 +21,7 @@ class ModelTbluser {
   });
 
   int id;
-  int userId;
+  String userId;
   String username;
   String email;
   String createdAt;
