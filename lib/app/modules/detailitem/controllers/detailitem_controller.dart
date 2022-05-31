@@ -1,8 +1,12 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:ch_data_asset/models/tbl_masteritem.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DetailitemController extends GetxController {
@@ -14,10 +18,9 @@ class DetailitemController extends GetxController {
   RxString imageUrlStr = "".obs;
   RxString sourceImg = "".obs;
   RxList listImg = [].obs;
-
-  // final List<String> imgList = [
-  //   // 'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-  // ];
+  RxBool isEdit = false.obs;
+  RxString scanResult = "".obs;
+  RxList allGetData = List.empty().obs;
 
   TextEditingController idAssetC = TextEditingController();
   TextEditingController nameC = TextEditingController();
@@ -31,4 +34,61 @@ class DetailitemController extends GetxController {
   late File xfile;
   File? ambilGambar;
   late File imageFile;
+
+  String? validateidAsset(String value) {
+    if (value.length <= 6 || value.isEmpty) {
+      return "ID Asset Wajib Diisi";
+    }
+    return null;
+  }
+
+  Future<dynamic> scanBarcode() async {
+    isEdit.value = false;
+    try {
+      scanResult.value = await FlutterBarcodeScanner.scanBarcode(
+        "#ff6666",
+        "Cancel",
+        true,
+        ScanMode.QR,
+      );
+      if (scanResult.value == "-1") {
+        idAssetC.text = "";
+      } else {
+        idAssetC.text = scanResult.value;
+        isiBarcode.value = scanResult.value;
+        cariData(scanResult.value.toString());
+      }
+    } on PlatformException catch (error) {
+      print(error);
+    }
+    // if (!mounted) return;
+  }
+
+  Future<dynamic> cariData(String nilai) async {
+    try {
+      PostgrestResponse<dynamic> result = await client
+          .from('tbl_masteritem')
+          .select('')
+          .match({'id_asset': nilai}).execute();
+
+      final data = result.data;
+      final error = result.error;
+      List<TblMasterItem> dataNote =
+          TblMasterItem.fromJsonList(result.data as List);
+
+      allGetData.value = List<TblMasterItem>.from(dataNote);
+
+      allGetData.refresh();
+
+      for (var item in dataNote) {
+        nameC.text = item.nameAsset;
+        descriptionC.text = item.descAsset;
+        picC.text = item.picAsset;
+        DateTime tanggal = DateTime.parse(item.tglBeli);
+        dateC.text = DateFormat('dd-MMM-yyyy').format(tanggal);
+      }
+    } catch (err) {
+      print("err");
+    }
+  }
 }

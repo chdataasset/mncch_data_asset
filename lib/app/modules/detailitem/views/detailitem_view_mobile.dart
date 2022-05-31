@@ -1,17 +1,58 @@
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
+import '../../../../models/constant.dart';
 import '../controllers/detailitem_controller.dart';
 
 class DetailitemViewMobile extends GetView<DetailitemController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Tambah Data'),
-        centerTitle: true,
-      ),
+      appBar: (GetPlatform.isMobile)
+          ? AppBar(
+              elevation: 5,
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: InkWell(
+                    onTap: () => controller.scanBarcode(),
+                    child: Container(
+                      width: 160,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(30.0)),
+                          border: Border.all(color: Colors.white)),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: const [
+                            Padding(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                "Scan Barcode",
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Icon(Icons.qr_code_scanner_outlined,
+                                size: 18, color: Colors.blue)
+                          ]),
+                    ),
+                  ),
+                )
+              ],
+            )
+          : AppBar(
+              elevation: 25,
+              title: Text('Detail Item'),
+              centerTitle: true,
+            ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -42,12 +83,17 @@ class DetailitemViewMobile extends GetView<DetailitemController> {
                     ),
                     TextFormField(
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        labelText: "Id Asset",
-                        prefixIcon: Icon(Icons.computer_outlined),
-                      ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          labelText: "Id Asset",
+                          prefixIcon: Icon(Icons.computer_outlined),
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                controller
+                                    .cariData(controller.isiBarcode.value);
+                              },
+                              icon: Icon(Icons.search_outlined))),
                       autocorrect: false,
                       keyboardType: TextInputType.name,
                       controller: controller.idAssetC,
@@ -57,9 +103,6 @@ class DetailitemViewMobile extends GetView<DetailitemController> {
                       },
                       onSaved: (value) {
                         controller.idAssetC.text = value!;
-                      },
-                      validator: (value) {
-                        return controller.validateidAsset(value!);
                       },
                     ),
                     SizedBox(
@@ -85,9 +128,6 @@ class DetailitemViewMobile extends GetView<DetailitemController> {
                       onSaved: (value) {
                         controller.nameC.text = value!;
                       },
-                      validator: (value) {
-                        return controller.validateName(value!);
-                      },
                     ),
                     SizedBox(
                       height: 12,
@@ -109,9 +149,6 @@ class DetailitemViewMobile extends GetView<DetailitemController> {
                       onSaved: (value) {
                         controller.descriptionC.text = value!;
                       },
-                      validator: (value) {
-                        return controller.validateDescription(value!);
-                      },
                     ),
                     SizedBox(
                       height: 12,
@@ -132,9 +169,6 @@ class DetailitemViewMobile extends GetView<DetailitemController> {
                       },
                       onSaved: (value) {
                         controller.picC.text = value!;
-                      },
-                      validator: (value) {
-                        return controller.validatepic(value!);
                       },
                     ),
                     SizedBox(
@@ -160,7 +194,6 @@ class DetailitemViewMobile extends GetView<DetailitemController> {
                             firstDate: DateTime(1900),
                             lastDate: DateTime(2100)))!;
 
-                        // controller.dateC.text = dateformat(date.toIso8601String());
                         controller.dateC.text =
                             DateFormat('dd-MMM-yyyy').format(date);
                       },
@@ -173,96 +206,54 @@ class DetailitemViewMobile extends GetView<DetailitemController> {
                       height: 12,
                     ),
                     Center(
-                      child: InkWell(
-                        onDoubleTap: () {
-                          Get.bottomSheet(
-                            Container(
-                                height: 150,
-                                color: Colors.greenAccent,
-                                child: Column(
-                                  children: [
-                                    TextButton(
-                                      onPressed: () {
-                                        controller.upload(ImageSource.camera);
-                                        Get.back();
-                                      },
-                                      child: Text(
-                                        "Camera",
-                                        textScaleFactor: 2,
+                      child: Column(
+                        children: [
+                          Obx(
+                            () => (controller.imageUrl.value == "" ||
+                                    controller.imageUrl.value == "")
+                                ? Container(
+                                    width: 200,
+                                    height: 200,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Image.asset(
+                                        "assets/images/noimage.png",
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                    TextButton(
-                                      onPressed: () {
-                                        controller.upload(ImageSource.gallery);
-                                        Get.back();
-                                      },
-                                      child: Text(
-                                        "Gallery",
-                                        textScaleFactor: 2,
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                            barrierColor: Colors.red[50],
-                            isDismissible: true,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(35),
-                                side:
-                                    BorderSide(width: 5, color: Colors.black)),
-                            enableDrag: false,
-                          );
-                        },
-                        child: Column(
-                          children: [
-                            Obx(
-                              () => (controller.imageUrl.value == "" ||
-                                      controller.imageUrl.value == "")
-                                  ? Container(
-                                      width: 200,
-                                      height: 200,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Image.asset(
-                                          "assets/images/noimage.png",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      decoration: BoxDecoration(
-                                          border:
-                                              Border.all(color: kLightgreen)),
-                                    )
-                                  : Container(
-                                      width: 200,
-                                      height: 200,
-                                      child: (controller.filebytes != null)
-                                          ? Image.memory(
-                                              filterQuality: FilterQuality.high,
-                                              width: 150,
-                                              height: 150,
-                                              controller.filebytes,
-                                              fit: BoxFit.fill,
-                                            )
-                                          : Image.asset(
-                                              "assets/images/noimage.png"),
-                                    ),
-                            ),
-                            Divider(
-                              height: 2,
-                            ),
-                            Text(
-                              "Tap 2 kali Untuk Ganti Gambar",
-                              textScaleFactor: 1,
-                              style: TextStyle(
-                                  color: Colors.red,
-                                  fontStyle: FontStyle.italic),
-                            ),
-                          ],
-                        ),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(color: kLightgreen)),
+                                  )
+                                : Container(
+                                    width: 200,
+                                    height: 200,
+                                    child: (controller.filebytes != null)
+                                        ? Image.memory(
+                                            filterQuality: FilterQuality.high,
+                                            width: 150,
+                                            height: 150,
+                                            controller.filebytes,
+                                            fit: BoxFit.fill,
+                                          )
+                                        : Image.asset(
+                                            "assets/images/noimage.png"),
+                                  ),
+                          ),
+                          Divider(
+                            height: 2,
+                          ),
+                          Text(
+                            "Tap 2 kali Untuk Ganti Gambar",
+                            textScaleFactor: 1,
+                            style: TextStyle(
+                                color: Colors.red, fontStyle: FontStyle.italic),
+                          ),
+                        ],
                       ),
                     ),
                     ElevatedButton(
                         onPressed: () {
-                          controller.simpan();
+                          // controller.simpan();
                         },
                         child: Text("Submit")),
                     SizedBox(

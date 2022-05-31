@@ -134,7 +134,8 @@ class HomeViewMobile extends GetView<HomeController> {
                                                                 // Get.toNamed(Routes.TAMBAH)
                                                                 break;
                                                               case 2:
-                                                                // Get.toNamed(Routes.TAMBAH)
+                                                                Get.toNamed(Routes
+                                                                    .DETAILITEM);
                                                                 break;
                                                               case 3:
                                                                 // Get.toNamed(Routes.TAMBAH)
