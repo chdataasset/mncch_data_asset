@@ -72,6 +72,7 @@ class DetailitemController extends GetxController {
           .match({'id_asset': nilai}).execute();
 
       final data = result.data;
+      print(result.data);
       final error = result.error;
       List<TblMasterItem> dataNote =
           TblMasterItem.fromJsonList(result.data as List);
@@ -81,6 +82,7 @@ class DetailitemController extends GetxController {
       allGetData.refresh();
 
       for (var item in dataNote) {
+        print(item.nameAsset);
         nameC.text = item.nameAsset;
         descriptionC.text = item.descAsset;
         picC.text = item.picAsset;
@@ -88,7 +90,7 @@ class DetailitemController extends GetxController {
         dateC.text = DateFormat('dd-MMM-yyyy').format(tanggal);
       }
     } catch (err) {
-      print("err");
+      print(err);
     }
   }
 }
