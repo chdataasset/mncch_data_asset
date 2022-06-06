@@ -4,7 +4,8 @@ import 'package:get/get.dart';
 import '../../login/views/login_view_mobile.dart';
 import '../controllers/tambah_controller.dart';
 
-class TambahViewTablet extends GetView<TambahController> {
+class TambahViewMedium
+ extends GetView<TambahController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold();

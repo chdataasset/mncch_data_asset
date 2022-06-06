@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../../models/tbl_listhome.dart';
+import '../../../../_assets/data/struc/tbl_listhome.dart';
 
 class HomeController extends GetxController {
   RxList<TableListHome> allList = List<TableListHome>.empty().obs;

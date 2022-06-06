@@ -1,17 +1,15 @@
 import 'dart:io';
-import 'dart:convert';
+
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:get_storage/get_storage.dart';
-import 'package:intl/intl.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../../models/constant.dart';
-import '../../../../models/tbl_user.dart';
+import '../../../../_assets/data/struc/tbl_user.dart';
 
 class TambahController extends GetxController {
   RxString userName = "".obs;
@@ -22,10 +20,7 @@ class TambahController extends GetxController {
   RxString imageUrlStr = "".obs;
   RxString sourceImg = "".obs;
   RxList listImg = [].obs;
-
-  // final List<String> imgList = [
-  //   // 'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-  // ];
+  RxBool isSimpan = false.obs;
 
   TextEditingController idAssetC = TextEditingController();
   TextEditingController nameC = TextEditingController();
@@ -42,18 +37,57 @@ class TambahController extends GetxController {
 
   Future<void> upload(ImageSource imageSource) async {
     isLoading.value = true;
-    final picker = ImagePicker();
-    final imageFile = await picker.pickImage(
-      source: (imageSource == ImageSource.camera)
-          ? ImageSource.camera
-          : ImageSource.gallery,
-      maxWidth: 100,
-      maxHeight: 100,
-    );
-    if (imageFile == null) {
+
+    try {
+      final picker = ImagePicker();
+      final imageFile = await picker.pickImage(
+        source: (imageSource == ImageSource.camera)
+            ? ImageSource.camera
+            : ImageSource.gallery,
+        imageQuality: 100,
+        maxWidth: double.infinity,
+        maxHeight: double.infinity,
+      );
+      if (imageFile == null) {
+        Get.defaultDialog(
+            title: "Error",
+            middleText: "No Image",
+            textConfirm: "Ok",
+            onConfirm: () {
+              Get.back();
+              Get.back();
+            });
+        return;
+      }
+
+      File tmpFile = File(imageFile.path);
+      final bytes = await imageFile.readAsBytes();
+      final fileExt = imageFile.path.split('.').last;
+      final fileName = '${DateTime.now().toIso8601String()}.$fileExt';
+      final filePath = fileName;
+      filepath.value = filePath.toString();
+      filebytes = bytes;
+      xfile = tmpFile;
+      imageUrlStr.value = fileName;
+
+      final Directory extDir = await getApplicationDocumentsDirectory();
+      String dirPath = extDir.path;
+      final String extfilePath = '$dirPath/$fileName';
+
+      final File newImage = await tmpFile.copy(extfilePath);
+
+      imageUrl.value = newImage.toString();
+      print("${dirPath}");
+      if (imageFile != null) {
+        tmpFile = newImage;
+        print("berhasil");
+      } else {
+        print('No image selected.');
+      }
+    } catch (err) {
       Get.defaultDialog(
           title: "Error",
-          middleText: "No Image",
+          middleText: "$err",
           textConfirm: "Ok",
           onConfirm: () {
             Get.back();
@@ -62,62 +96,35 @@ class TambahController extends GetxController {
       return;
     }
 
-    File tmpFile = File(imageFile.path);
-    final bytes = await imageFile.readAsBytes();
-    final fileExt = imageFile.path.split('.').last;
-    final fileName = '${DateTime.now().toIso8601String()}.$fileExt';
-    final filePath = fileName;
-    filepath.value = filePath.toString();
-    filebytes = bytes;
-
-    isiBarcode.value = fileName.toString() + filePath.toString();
-
-    final Directory extDir = await getApplicationDocumentsDirectory();
-    String dirPath = extDir.path;
-    final String extfilePath = '$dirPath/$fileName';
-
-    final File newImage = await tmpFile.copy(extfilePath);
-
-    imageUrlStr.value = fileName;
-
-    if (imageFile != null) {
-      tmpFile = newImage;
-      print("berhasil");
-    } else {
-      print('No image selected.');
-    }
-    imageUrl.value = newImage.toString();
     isLoading.value = false;
+    update();
   }
 
   void simpan() async {
     isLoading.value = true;
 
     try {
-      cekUser();
-      simpanGambar(filepath.value, filebytes);
-    } catch (err) {
-      print(err);
-    }
-
-    try {
-      await client.from("tbl_masteritem").insert({
-        "id_asset": idAssetC.text,
-        "name_asset": nameC.text,
-        "desc_asset": descriptionC.text,
-        "pic_asset": picC.text,
-        "tgl_beli": dateC.text,
-        "user_created": userName.value,
-        "created_at": DateTime.now().toIso8601String(),
-        "imageUrl": imageUrlStr.value,
-      }).execute();
-      Get.defaultDialog(
-          title: "Success",
-          middleText: "Data Telah Tersimpan",
-          textConfirm: "Ok",
-          onConfirm: () {
-            Get.back();
-          });
+      await client
+          .from("tbl_masteritem")
+          .insert({
+            "id_asset": idAssetC.text,
+            "name_asset": nameC.text,
+            "desc_asset": descriptionC.text,
+            "pic_asset": picC.text,
+            "tgl_beli": dateC.text,
+            "user_created": userName.value,
+            "created_at": DateTime.now().toIso8601String(),
+            "imageUrl": imageUrlStr.value,
+          })
+          .execute()
+          .then((value) => Get.defaultDialog(
+              title: "Success",
+              middleText: "Data Telah Tersimpan",
+              textConfirm: "Ok",
+              onConfirm: () {
+                isSimpan.value = true;
+                Get.back();
+              }));
     } catch (err) {
       print("err");
       Get.defaultDialog(

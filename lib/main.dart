@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'app/routes/app_pages.dart';
 
-import 'models/constant.dart';
+import '_assets/constant.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +24,7 @@ void main() async {
           primaryColor: kLightBlue,
           iconTheme: IconThemeData(color: Colors.lightBlueAccent)),
       debugShowCheckedModeBanner: false,
-      title: "MNC Channels Dta Asset",
+      title: "MNC Channels Data Asset",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
     ),

@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../../models/tbl_user.dart';
-
 class LoginController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool rememberme = false.obs;

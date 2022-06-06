@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../../../../models/tbl_listhome.dart';
+import '../../../../_assets/data/struc/tbl_listhome.dart';
 import '../controllers/home_controller.dart';
 
-class HomeViewMobile extends GetView<HomeController> {
+class HomeViewSmall extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

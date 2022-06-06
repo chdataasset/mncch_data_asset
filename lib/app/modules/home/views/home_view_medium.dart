@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../controllers/home_controller.dart';
 
-class HomeViewTablet extends GetView<HomeController> {
+class HomeViewMedium extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold();

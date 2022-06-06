@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../models/constant.dart';
+import '../../../../_assets/constant.dart';
 import '../controllers/detailitem_controller.dart';
 
 class DetailitemViewMobile extends GetView<DetailitemController> {

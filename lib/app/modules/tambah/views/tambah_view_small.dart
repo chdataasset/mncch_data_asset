@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:ch_data_asset/models/constant.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -13,7 +12,7 @@ import 'package:barcode_widget/barcode_widget.dart';
 import '../controllers/tambah_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-class TambahViewMobile extends GetView<TambahController> {
+class TambahViewSmall extends GetView<TambahController> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -181,95 +180,82 @@ class TambahViewMobile extends GetView<TambahController> {
                     SizedBox(
                       height: 12,
                     ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    Center(
-                      child: InkWell(
-                        onDoubleTap: () {
-                          Get.bottomSheet(
-                            Container(
-                                height: 150,
-                                color: Colors.greenAccent,
-                                child: Column(
-                                  children: [
-                                    TextButton(
-                                      onPressed: () {
-                                        controller.upload(ImageSource.camera);
-                                        Get.back();
-                                      },
-                                      child: Text(
-                                        "Camera",
-                                        textScaleFactor: 2,
+                    InkWell(
+                      onDoubleTap: () {
+                        Get.bottomSheet(
+                          Container(
+                              height: 150,
+                              color: Colors.greenAccent,
+                              child: Column(
+                                children: [
+                                  TextButton(
+                                    onPressed: () {
+                                      controller.upload(ImageSource.camera);
+                                      Get.back();
+                                    },
+                                    child: Text(
+                                      "Camera",
+                                      textScaleFactor: 2,
+                                    ),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      controller.upload(ImageSource.gallery);
+                                      Get.back();
+                                    },
+                                    child: Text(
+                                      "Gallery",
+                                      textScaleFactor: 2,
+                                    ),
+                                  ),
+                                ],
+                              )),
+                          barrierColor: Colors.red[50],
+                          isDismissible: true,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(35),
+                              side: BorderSide(width: 5, color: Colors.black)),
+                          enableDrag: false,
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          Obx(
+                            () => (controller.imageUrl.value == "" ||
+                                    controller.imageUrl.value == "")
+                                ? Container(
+                                    width: 200,
+                                    height: 200,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Image.asset(
+                                        "assets/images/noimage.png",
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                    TextButton(
-                                      onPressed: () {
-                                        controller.upload(ImageSource.gallery);
-                                        Get.back();
-                                      },
-                                      child: Text(
-                                        "Gallery",
-                                        textScaleFactor: 2,
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                            barrierColor: Colors.red[50],
-                            isDismissible: true,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(35),
-                                side:
-                                    BorderSide(width: 5, color: Colors.black)),
-                            enableDrag: false,
-                          );
-                        },
-                        child: Column(
-                          children: [
-                            Obx(
-                              () => (controller.imageUrl.value == "" ||
-                                      controller.imageUrl.value == "")
-                                  ? Container(
-                                      width: 200,
-                                      height: 200,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Image.asset(
-                                          "assets/images/noimage.png",
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      decoration: BoxDecoration(
-                                          border:
-                                              Border.all(color: kLightgreen)),
-                                    )
-                                  : Container(
-                                      width: 200,
-                                      height: 200,
-                                      child: (controller.filebytes != null)
-                                          ? Image.memory(
-                                              filterQuality: FilterQuality.high,
-                                              width: 150,
-                                              height: 150,
-                                              controller.filebytes,
-                                              fit: BoxFit.fill,
-                                            )
-                                          : Image.asset(
-                                              "assets/images/noimage.png"),
-                                    ),
-                            ),
-                            Divider(
-                              height: 2,
-                            ),
-                            Text(
-                              "Tap 2 kali Untuk Ganti Gambar",
-                              textScaleFactor: 1,
-                              style: TextStyle(
-                                  color: Colors.red,
-                                  fontStyle: FontStyle.italic),
-                            ),
-                          ],
-                        ),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.greenAccent)),
+                                  )
+                                : Container(
+                                    width: 200,
+                                    height: 200,
+                                    child: (controller.filepath != null)
+                                        ? Image.file(controller.xfile)
+                                        : Image.asset(
+                                            "assets/images/noimage.png"),
+                                  ),
+                          ),
+                          Divider(
+                            height: 2,
+                          ),
+                          Text(
+                            "Tap 2 kali Untuk Ganti Gambar",
+                            textScaleFactor: 1,
+                            style: TextStyle(
+                                color: Colors.red, fontStyle: FontStyle.italic),
+                          ),
+                        ],
                       ),
                     ),
                     ElevatedButton(
