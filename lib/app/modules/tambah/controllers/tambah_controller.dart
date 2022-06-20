@@ -124,6 +124,7 @@ class TambahController extends GetxController {
               onConfirm: () {
                 isSimpan.value = true;
                 Get.back();
+                Get.back();
               }));
     } catch (err) {
       print("err");
@@ -163,13 +164,14 @@ class TambahController extends GetxController {
       PostgrestResponse<dynamic> result = await client
           .from("tbl_user")
           .select('')
-          .match({"user_id": client.auth.currentUser!.id}).execute();
+          .match({"user_id": client.auth..currentUser!.id}).execute();
 
       List<ModelTbluser> userList =
           ModelTbluser.fromJsonList(result.data as List);
 
       for (var element in userList) {
         userName.value = element.username;
+        print(userName.value);
       }
     } catch (err) {
       print(err);

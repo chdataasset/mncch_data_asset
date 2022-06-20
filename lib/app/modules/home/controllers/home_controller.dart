@@ -55,12 +55,10 @@ class HomeController extends GetxController {
   void GetRoute(route) {
     switch (route) {
       case 0:
-        print(route);
         Get.toNamed(Routes.TAMBAH);
         break;
       case 1:
-        print(route);
-        // Get.toNamed(Routes.TAMBAH)
+        Get.toNamed(Routes.DAFTAR_LIST);
         break;
       case 2:
         // Get.toNamed(Routes.TAMBAH)

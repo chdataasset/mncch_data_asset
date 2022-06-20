@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/daftar_list/bindings/daftar_list_binding.dart';
+import '../modules/daftar_list/views/daftar_list_view.dart';
 import '../modules/detailitem/bindings/detailitem_binding.dart';
 import '../modules/detailitem/views/detailitem_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -46,6 +48,11 @@ class AppPages {
       name: _Paths.DETAILITEM,
       page: () => DetailitemView(),
       binding: DetailitemBinding(),
+    ),
+    GetPage(
+      name: _Paths.DAFTAR_LIST,
+      page: () => DaftarListView(),
+      binding: DaftarListBinding(),
     ),
   ];
 }

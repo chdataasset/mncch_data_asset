@@ -22,12 +22,13 @@ Color kLightBlue = Colors.blue.shade50;
 String noimage = "/assets/images/noimage.png";
 InputDecoration kTextFieldDecoration = InputDecoration(
   contentPadding: EdgeInsets.only(left: 20, top: 5, bottom: 5),
+  isDense: true,
   filled: true,
   fillColor: Color.fromRGBO(255, 255, 255, 0.3),
   focusColor: Colors.black,
   hintText: '',
-  hintStyle:
-      TextStyle(color: Colors.blue.shade300, fontWeight: FontWeight.w800),
+  hintStyle: TextStyle(
+      color: Colors.blue.shade300, fontWeight: FontWeight.w800, height: 5),
   enabledBorder: OutlineInputBorder(
     borderSide: BorderSide(color: kWhite, width: 3.0),
     borderRadius: BorderRadius.all(
@@ -77,4 +78,3 @@ final containerdecor = BoxDecoration(
     BoxShadow(color: Colors.green, spreadRadius: 3),
   ],
 );
-  

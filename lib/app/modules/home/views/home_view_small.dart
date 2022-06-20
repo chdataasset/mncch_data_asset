@@ -130,8 +130,8 @@ class HomeViewSmall extends GetView<HomeController> {
                                                                         .TAMBAH);
                                                                 break;
                                                               case 1:
-
-                                                                // Get.toNamed(Routes.TAMBAH)
+                                                                Get.toNamed(Routes
+                                                                    .DAFTAR_LIST);
                                                                 break;
                                                               case 2:
                                                                 Get.toNamed(Routes
