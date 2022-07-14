@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:ch_data_asset/app/routes/app_pages.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -22,6 +23,26 @@ class TambahViewSmall extends GetView<TambahController> {
       appBar: AppBar(
         title: Text('Tambah Data'),
         centerTitle: true,
+        backgroundColor: Colors.white70,
+        actions: [
+          GestureDetector(
+            onTap: () => controller.clearText(),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Container(
+                width: 25,
+                height: 25,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      'assets/icons/icons8-clear-48.png',
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Center(
@@ -185,7 +206,7 @@ class TambahViewSmall extends GetView<TambahController> {
                         Get.bottomSheet(
                           Container(
                               height: 150,
-                              color: Colors.greenAccent,
+                              color: Colors.transparent,
                               child: Column(
                                 children: [
                                   TextButton(
@@ -208,6 +229,15 @@ class TambahViewSmall extends GetView<TambahController> {
                                       textScaleFactor: 2,
                                     ),
                                   ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: Text(
+                                      "Batal",
+                                      textScaleFactor: 2,
+                                    ),
+                                  ),
                                 ],
                               )),
                           barrierColor: Colors.red[50],
@@ -224,8 +254,8 @@ class TambahViewSmall extends GetView<TambahController> {
                             () => (controller.imageUrl.value == "" ||
                                     controller.imageUrl.value == "")
                                 ? Container(
-                                    width: 200,
-                                    height: 200,
+                                    width: double.infinity,
+                                    height: 250,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Image.asset(
@@ -238,9 +268,10 @@ class TambahViewSmall extends GetView<TambahController> {
                                             color: Colors.greenAccent)),
                                   )
                                 : Container(
-                                    width: 200,
+                                    width: double.infinity,
                                     height: 200,
-                                    child: (controller.filepath != null)
+                                    child: (controller
+                                            .imageUrlStr.value.isNotEmpty)
                                         ? Image.file(controller.xfile)
                                         : Image.asset(
                                             "assets/images/noimage.png"),

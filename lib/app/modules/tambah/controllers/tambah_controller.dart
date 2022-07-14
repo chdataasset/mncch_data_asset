@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../../../../_assets/constant.dart';
 import '../../../../_assets/data/struc/tbl_user.dart';
 
 class TambahController extends GetxController {
@@ -49,21 +50,15 @@ class TambahController extends GetxController {
         maxHeight: double.infinity,
       );
       if (imageFile == null) {
-        Get.defaultDialog(
-            title: "Error",
-            middleText: "No Image",
-            textConfirm: "Ok",
-            onConfirm: () {
-              Get.back();
-              Get.back();
-            });
+        errorDialog;
         return;
       }
 
       File tmpFile = File(imageFile.path);
+
       final bytes = await imageFile.readAsBytes();
       final fileExt = imageFile.path.split('.').last;
-      final fileName = '${DateTime.now().toIso8601String()}.$fileExt';
+      final fileName = '$preName${DateTime.now().toIso8601String()}.$fileExt';
       final filePath = fileName;
       filepath.value = filePath.toString();
       filebytes = bytes;
@@ -77,22 +72,15 @@ class TambahController extends GetxController {
       final File newImage = await tmpFile.copy(extfilePath);
 
       imageUrl.value = newImage.toString();
-      print("${dirPath}");
+
       if (imageFile != null) {
         tmpFile = newImage;
-        print("berhasil");
       } else {
         print('No image selected.');
       }
     } catch (err) {
-      Get.defaultDialog(
-          title: "Error",
-          middleText: "$err",
-          textConfirm: "Ok",
-          onConfirm: () {
-            Get.back();
-            Get.back();
-          });
+      errorDialog;
+      Get.back();
       return;
     }
 
@@ -102,81 +90,85 @@ class TambahController extends GetxController {
 
   void simpan() async {
     isLoading.value = true;
-
-    try {
-      await client
-          .from("tbl_masteritem")
-          .insert({
-            "id_asset": idAssetC.text,
-            "name_asset": nameC.text,
-            "desc_asset": descriptionC.text,
-            "pic_asset": picC.text,
-            "tgl_beli": dateC.text,
-            "user_created": userName.value,
-            "created_at": DateTime.now().toIso8601String(),
-            "imageUrl": imageUrlStr.value,
-          })
-          .execute()
-          .then((value) => Get.defaultDialog(
-              title: "Success",
-              middleText: "Data Telah Tersimpan",
-              textConfirm: "Ok",
-              onConfirm: () {
+    userName.value = client.auth.currentUser!.id;
+    if (idAssetC.text.isNotEmpty ||
+        nameC.text.isNotEmpty ||
+        descriptionC.text.isNotEmpty ||
+        picC.text.isNotEmpty ||
+        dateC.text.isNotEmpty ||
+        imageUrlStr.value.isNotEmpty) {
+      try {
+        await simpanGambar(filepath.value, filebytes);
+        await client
+            .from("tbl_masteritem")
+            .insert({
+              "id_asset": idAssetC.text,
+              "name_asset": nameC.text,
+              "desc_asset": descriptionC.text,
+              "pic_asset": picC.text,
+              "tgl_beli": dateC.text,
+              "user_created": userName.value,
+              "created_at": DateTime.now().toIso8601String(),
+              "imageUrl": imageUrlStr.value,
+            })
+            .execute()
+            .then((value) {
+              if (value.data != null) {
+                print("berhasil");
+                Get.defaultDialog(
+                    title: "Success",
+                    middleText: "Data Telah Tersimpan",
+                    textConfirm: "Ok",
+                    onConfirm: () {
+                      clearText();
+                      Get.back();
+                    });
                 isSimpan.value = true;
-                Get.back();
-                Get.back();
-              }));
-    } catch (err) {
-      print("err");
-      Get.defaultDialog(
-          title: "Error",
-          middleText: "Error $err",
-          textConfirm: "Ok",
-          onConfirm: () {
-            Get.back();
-          });
+              }
+            });
+      } catch (err) {
+        print("err");
+        errorDialog;
+      }
+    } else {
+      errorDialog;
     }
+
     isLoading.value = false;
   }
 
-  void simpanGambar(path, bytes) {
+  simpanGambar(path, bytes) async {
     try {
       final response =
-          client.storage.from('images/images').uploadBinary(path, bytes);
+          await client.storage.from('images/images').uploadBinary(path, bytes);
 
       StorageResponse<String> imageUrlResponse =
-          client.storage.from('images/images').getPublicUrl(path);
+          await client.storage.from('images/images').getPublicUrl(path);
     } catch (err) {
       print(err);
-      Get.defaultDialog(
-          title: "Error",
-          middleText: "$err",
-          textConfirm: "Ok",
-          onConfirm: () {
-            Get.back();
-            Get.back();
-          });
+      errorDialog;
+      Get.back();
     }
   }
 
-  void cekUser() async {
-    try {
-      PostgrestResponse<dynamic> result = await client
-          .from("tbl_user")
-          .select('')
-          .match({"user_id": client.auth..currentUser!.id}).execute();
+  // void cekUser() async {
+  //   try {
+  //     PostgrestResponse<dynamic> result = await client
+  //         .from("tbl_user")
+  //         .select('')
+  //         .match({"user_id": client.auth..currentUser!.id}).execute();
 
-      List<ModelTbluser> userList =
-          ModelTbluser.fromJsonList(result.data as List);
+  //     List<ModelTbluser> userList =
+  //         ModelTbluser.fromJsonList(result.data as List);
 
-      for (var element in userList) {
-        userName.value = element.username;
-        print(userName.value);
-      }
-    } catch (err) {
-      print(err);
-    }
-  }
+  //     for (var element in userList) {
+  //       userName.value = element.username;
+  //       print(userName.value);
+  //     }
+  //   } catch (err) {
+  //     print(err);
+  //   }
+  // }
 
   ///=================CEK VALIDASI==============
   String? validateidAsset(String value) {
@@ -205,6 +197,15 @@ class TambahController extends GetxController {
       return "PIC Wajib Diisi";
     }
     return null;
+  }
+
+  clearText() {
+    idAssetC.text = "";
+    nameC.text = "";
+    descriptionC.text = "";
+    picC.text = "";
+    dateC.text = "";
+    imageUrlStr.value = "";
   }
 
   ///=================INIT CLOSE==============

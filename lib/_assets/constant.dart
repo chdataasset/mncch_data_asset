@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class BaseUrl {
   // static const Baseurl = 'https://flutter.ramarumah.id/flutter/';
@@ -19,6 +20,7 @@ Color kYellow = Color(0xFFF3FFBD);
 Color kWhite = Color.fromARGB(255, 207, 206, 206);
 Color kDarkBlue = Colors.blue.shade900;
 Color kLightBlue = Colors.blue.shade50;
+String preName = 'img';
 String noimage = "/assets/images/noimage.png";
 InputDecoration kTextFieldDecoration = InputDecoration(
   contentPadding: EdgeInsets.only(left: 20, top: 5, bottom: 5),
@@ -78,3 +80,19 @@ final containerdecor = BoxDecoration(
     BoxShadow(color: Colors.green, spreadRadius: 3),
   ],
 );
+
+var successDialog = Get.defaultDialog(
+    title: "Success",
+    middleText: "Data Telah Tersimpan",
+    textConfirm: "Ok",
+    onConfirm: () {
+      Get.back();
+    });
+
+var errorDialog = Get.defaultDialog(
+    title: "Error",
+    middleText: "Data Error",
+    textConfirm: "Ok",
+    onConfirm: () {
+      Get.back();
+    });
