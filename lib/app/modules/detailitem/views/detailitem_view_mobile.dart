@@ -202,9 +202,6 @@ class DetailitemViewMobile extends GetView<DetailitemController> {
                     SizedBox(
                       height: 12,
                     ),
-                    SizedBox(
-                      height: 12,
-                    ),
                     Center(
                       child: Column(
                         children: [

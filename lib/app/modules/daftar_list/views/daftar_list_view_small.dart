@@ -9,7 +9,6 @@ import '../controllers/daftar_list_controller.dart';
 class DaftarListViewSmall extends GetView<DaftarListController> {
   @override
   Widget build(BuildContext context) {
-    
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return SafeArea(
@@ -63,14 +62,26 @@ class DaftarListViewSmall extends GetView<DaftarListController> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
-                                                Container(
-                                                    height: 100,
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(3.0),
+                                                  child: Container(
+                                                    height: double.maxFinite,
                                                     width: 100,
-                                                    color: Colors.transparent,
+
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            width: 3,
+                                                            color:
+                                                                Colors.white)),
+                                                    // child: Text(
+                                                    //     "${BaseUrl.cPathImgUrl}${itemBody.imageUrl}")
                                                     child: Image.network(
-                                                      itemBody.imageUrl,
+                                                      "${BaseUrl.cPathImgUrl}${itemBody.imageUrl}",
                                                       fit: BoxFit.fill,
-                                                    )),
+                                                    ),
+                                                  ),
+                                                ),
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
@@ -80,7 +91,7 @@ class DaftarListViewSmall extends GetView<DaftarListController> {
                                                   child: Column(
                                                     children: [
                                                       SizedBox(
-                                                        height: 30,
+                                                        // height: 30,
                                                         width: 250,
                                                         child: Align(
                                                           alignment: Alignment
@@ -124,69 +135,3 @@ class DaftarListViewSmall extends GetView<DaftarListController> {
     );
   }
 }
-
-
-
-
-
-
-  // child: Form(
-              //   child: Column(
-              //     mainAxisAlignment: MainAxisAlignment.start,
-              //     children: [
-              //       Padding(
-              //         padding: const EdgeInsets.all(5.0),
-              //         child: Row(
-              //           children: [
-              //             Expanded(
-              //               child: TextFormField(
-              //                 validator: (value) {
-              //                   if (value == null || value.isEmpty) {
-              //                     return 'Please enter some text';
-              //                   }
-              //                   return null;
-              //                 },
-              //                 controller: controller.searchC,
-              //                 keyboardType: TextInputType.text,
-              //                 autocorrect: false,
-              //                 decoration: kTextFieldDecoration.copyWith(
-              //                     label: Text("Search")),
-              //                 onChanged: (value) =>
-              //                     value = controller.searchC.text,
-              //               ),
-              //             ),
-            
-              //             IconButton(
-              //               constraints: BoxConstraints(
-              //                 minWidth: kMinInteractiveDimension,
-              //                 minHeight: kMinInteractiveDimension,
-              //               ),
-              //               onPressed: () {
-              //                 print("search");
-              //               },
-              //               icon: Icon(Icons.search),
-              //             ),
-              //             IconButton(
-              //               constraints: BoxConstraints(
-              //                 minWidth: kMinInteractiveDimension,
-              //                 minHeight: kMinInteractiveDimension,
-              //               ),
-              //               onPressed: () {},
-              //               icon: Icon(Icons.sort_rounded),
-              //             ),
-              //             // SizedBox(
-              //             //   width: 5,
-              //             // ),
-              //             // IconButton(
-              //             //     onPressed: () {}, icon: Icon(Icons.sort_rounded)),
-              //             // SizedBox(
-              //             //   width: 2,
-              //             // ),
-              //           ],
-              //         ),
-                      
-              //       ),
-            
-              //     ],
-              //   ),
-              // ),
