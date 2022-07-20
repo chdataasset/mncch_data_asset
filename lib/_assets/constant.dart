@@ -96,3 +96,58 @@ var errorDialog = Get.defaultDialog(
     onConfirm: () {
       Get.back();
     });
+
+var helvetica_bold = TextStyle(
+  fontFamily: 'helvetica_bold',
+  fontSize: 10,
+);
+
+var HelveticaNeue_BlackCond = TextStyle(
+  fontFamily: 'HelveticaNeue_BlackCond',
+  fontSize: 10,
+);
+
+var HelveticaNeue_Light = TextStyle(
+  fontFamily: 'HelveticaNeue_Light',
+  fontSize: 10,
+);
+
+var HelveticaNeue_Medium = TextStyle(
+  fontFamily: 'HelveticaNeue_Medium',
+  fontSize: 10,
+);
+
+var HelveticaNeue_Thin = TextStyle(
+  fontFamily: 'HelveticaNeue_Thin',
+  fontSize: 10,
+);
+
+var HelveticaNeue = TextStyle(
+  fontFamily: 'HelveticaNeue',
+  fontSize: 10,
+);
+
+var HelveticaNeueBd = TextStyle(
+  fontFamily: 'HelveticaNeueBd',
+  fontSize: 10,
+);
+
+var HelveticaNeueHv = TextStyle(
+  fontFamily: 'HelveticaNeueHv',
+  fontSize: 10,
+);
+
+var HelveticaNeueIt = TextStyle(
+  fontFamily: 'HelveticaNeueIt',
+  fontSize: 10,
+);
+
+var HelveticaNeueLt = TextStyle(
+  fontFamily: 'HelveticaNeueLt',
+  fontSize: 10,
+);
+
+var HelveticaNeueMed = TextStyle(
+  fontFamily: 'HelveticaNeueMed',
+  fontSize: 10,
+);

@@ -19,7 +19,7 @@ dependencies:
   image_picker: ^0.8.5+3
   path_provider: ^2.0.10
   flutter_barcode_scanner: ^2.0.0
-
+  google_fonts: ^3.0.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -28,6 +28,41 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: helvetica_bold
+      fonts:
+        - asset: assets/fonts/helveticaneue/Helvetica_Neu_Bold.ttf
+    - family: HelveticaNeue_BlackCond
+      fonts:
+        - asset: assets/fonts/helveticaneue/HelveticaNeue_BlackCond.ttf
+    - family: HelveticaNeue_Light
+      fonts:
+        - asset: assets/fonts/helveticaneue/HelveticaNeue_Light.ttf
+    - family: helvetica_medium
+      fonts:
+        - asset: assets/fonts/helveticaneue/HelveticaNeue_Medium.ttf
+    - family: HelveticaNeue_Thin
+      fonts:
+        - asset: assets/fonts/helveticaneue/HelveticaNeue_Thin.ttf
+    - family: HelveticaNeue
+      fonts:
+        - asset: assets/fonts/helveticaneue/HelveticaNeue.ttf
+    - family: HelveticaNeueBd
+      fonts:
+        - asset: assets/fonts/helveticaneue/HelveticaNeueBd.ttf
+    - family: HelveticaNeueHv
+      fonts:
+        - asset: assets/fonts/helveticaneue/HelveticaNeueHv.ttf
+    - family: HelveticaNeueIt
+      fonts:
+        - asset: assets/fonts/helveticaneue/HelveticaNeueIt.ttf
+    - family: HelveticaNeueLt
+      fonts:
+        - asset: assets/fonts/helveticaneue/HelveticaNeueLt.ttf
+    - family: HelveticaNeueMed
+      fonts:
+        - asset: assets/fonts/helveticaneue/HelveticaNeueMed.ttf
+
   assets:
     - assets/images/
     - assets/icons/

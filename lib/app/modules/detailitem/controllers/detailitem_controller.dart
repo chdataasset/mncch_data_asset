@@ -21,12 +21,31 @@ class DetailitemController extends GetxController {
   RxBool isEdit = false.obs;
   RxString scanResult = "".obs;
   RxList allGetData = List.empty().obs;
+  RxString idAssetT = "".obs;
+  RxString nameT = "".obs;
+  RxString descriptionT = "".obs;
+  RxString picT = "".obs;
+  RxString dateT = "".obs;
+  RxString imageUrlT = "".obs;
 
-  TextEditingController idAssetC = TextEditingController();
-  TextEditingController nameC = TextEditingController();
-  TextEditingController descriptionC = TextEditingController();
-  TextEditingController picC = TextEditingController();
-  TextEditingController dateC = TextEditingController();
+  // TextEditingController idAssetC = TextEditingController();
+  // TextEditingController nameC = TextEditingController();
+  // TextEditingController descriptionC = TextEditingController();
+  // TextEditingController picC = TextEditingController();
+  // TextEditingController dateC = TextEditingController();
+
+  TblMasterItem itemBody = Get.arguments;
+  // id.text = itemBody.idAsset;
+  // descC.text = note.desc;
+
+  loadData() {
+    idAssetT.value = itemBody.idAsset;
+    nameT.value = itemBody.nameAsset;
+    descriptionT.value = itemBody.descAsset;
+    picT.value = itemBody.picAsset;
+    dateT.value = itemBody.tglBeli;
+    imageUrlT.value = itemBody.imageUrl;
+  }
 
   final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
   SupabaseClient client = Supabase.instance.client;
@@ -35,62 +54,48 @@ class DetailitemController extends GetxController {
   File? ambilGambar;
   late File imageFile;
 
-  String? validateidAsset(String value) {
-    if (value.length <= 6 || value.isEmpty) {
-      return "ID Asset Wajib Diisi";
-    }
-    return null;
-  }
+  // String? validateidAsset(String value) {
+  //   if (value.length <= 6 || value.isEmpty) {
+  //     return "ID Asset Wajib Diisi";
+  //   }
+  //   return null;
+  // }
 
-  Future<dynamic> scanBarcode() async {
-    isEdit.value = false;
-    try {
-      scanResult.value = await FlutterBarcodeScanner.scanBarcode(
-        "#ff6666",
-        "Cancel",
-        true,
-        ScanMode.QR,
-      );
-      if (scanResult.value == "-1") {
-        idAssetC.text = "";
-      } else {
-        idAssetC.text = scanResult.value;
-        isiBarcode.value = scanResult.value;
-        cariData(scanResult.value.toString());
-      }
-    } on PlatformException catch (error) {
-      print(error);
-    }
-    // if (!mounted) return;
-  }
+  // Future<dynamic> cariData(String nilai) async {
+  //   try {
+  //     PostgrestResponse<dynamic> result = await client
+  //         .from('tbl_masteritem')
+  //         .select('')
+  //         .match({'id_asset': nilai}).execute();
 
-  Future<dynamic> cariData(String nilai) async {
-    try {
-      PostgrestResponse<dynamic> result = await client
-          .from('tbl_masteritem')
-          .select('')
-          .match({'id_asset': nilai}).execute();
+  //     final data = result.data;
+  //     print(result.data);
+  //     final error = result.error;
+  //     List<TblMasterItem> dataNote =
+  //         TblMasterItem.fromJsonList(result.data as List);
 
-      final data = result.data;
-      print(result.data);
-      final error = result.error;
-      List<TblMasterItem> dataNote =
-          TblMasterItem.fromJsonList(result.data as List);
+  //     allGetData.value = List<TblMasterItem>.from(dataNote);
 
-      allGetData.value = List<TblMasterItem>.from(dataNote);
+  //     allGetData.refresh();
 
-      allGetData.refresh();
+  //     for (var item in dataNote) {
+  //       print(item.nameAsset);
+  //       nameC.text = item.nameAsset;
+  //       descriptionC.text = item.descAsset;
+  //       picC.text = item.picAsset;
+  //       DateTime tanggal = DateTime.parse(item.tglBeli);
+  //       dateC.text = DateFormat('dd-MMM-yyyy').format(tanggal);
+  //     }
+  //   } catch (err) {
+  //     print(err);
+  //   }
+  // }
 
-      for (var item in dataNote) {
-        print(item.nameAsset);
-        nameC.text = item.nameAsset;
-        descriptionC.text = item.descAsset;
-        picC.text = item.picAsset;
-        DateTime tanggal = DateTime.parse(item.tglBeli);
-        dateC.text = DateFormat('dd-MMM-yyyy').format(tanggal);
-      }
-    } catch (err) {
-      print(err);
-    }
+  @override
+  void onInit() {
+    // TODO: implement onInit
+
+    super.onInit();
+    loadData();
   }
 }

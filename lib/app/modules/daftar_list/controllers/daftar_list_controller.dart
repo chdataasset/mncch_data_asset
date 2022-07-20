@@ -9,6 +9,8 @@ class DaftarListController extends GetxController {
 
   TextEditingController searchC = TextEditingController();
 
+
+
   Future getData() async {
     getAllData.clear(); //menghapus data list
     isloading.value = true;

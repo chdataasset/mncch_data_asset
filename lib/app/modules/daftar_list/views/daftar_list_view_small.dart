@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../_assets/constant.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/daftar_list_controller.dart';
 
 class DaftarListViewSmall extends GetView<DaftarListController> {
@@ -53,7 +54,10 @@ class DaftarListViewSmall extends GetView<DaftarListController> {
                                     return Padding(
                                       padding: const EdgeInsets.all(5.0),
                                       child: InkWell(
-                                        onTap: () {},
+                                        onTap: () {
+                                          Get.toNamed(Routes.DETAILITEM,
+                                              arguments: itemBody);
+                                        },
                                         child: Container(
                                             width: double.infinity,
                                             height: 100,
