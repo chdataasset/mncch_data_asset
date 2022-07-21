@@ -15,7 +15,8 @@ class DetailitemViewMobile extends GetView<DetailitemController> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-
+    // DateTime now = controller.dateT.value;
+    // String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
     return Scaffold(
       appBar: AppBar(
         title: Text('Detail Item'),
@@ -29,10 +30,13 @@ class DetailitemViewMobile extends GetView<DetailitemController> {
             Expanded(
               flex: 4,
               child: Container(
-                margin: EdgeInsets.only(left: 3, right: 3, bottom: 3),
-                height: 100,
-                width: double.maxFinite,
-                color: Colors.green,
+                margin: EdgeInsets.only(left: 8, right: 8, bottom: 3),
+                width: double.infinity,
+                height: 200,
+                child: (controller.imageUrlT.value.isNotEmpty)
+                    ? Image.network(
+                        "${BaseUrl.cPathImgUrl}${controller.imageUrlT.value}")
+                    : Image.asset("assets/images/noimage.png"),
               ),
             ),
             Expanded(
@@ -46,53 +50,97 @@ class DetailitemViewMobile extends GetView<DetailitemController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      "ID ASSET ${controller.idAssetT.value}",
-                      style: helvetica_medium,
+                    RichText(
+                      text: TextSpan(
+                          text: 'ID Asset :',
+                          style: helvetica_bold.copyWith(
+                              color: Colors.black, fontSize: 18),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: ' ${controller.idAssetT.value} ',
+                                style: HelveticaNeue_Medium.copyWith(
+                                    color: Colors.black))
+                          ]),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      "Nama Asset : ${controller.nameT.value} ",
-                      textWidthBasis: TextWidthBasis.longestLine,
+                    RichText(
+                      text: TextSpan(
+                          text: 'Nama Asset :',
+                          style: helvetica_bold.copyWith(
+                              color: Colors.black, fontSize: 18),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: ' ${controller.nameT.value} ',
+                                style: HelveticaNeue_Medium.copyWith(
+                                    color: Colors.black))
+                          ]),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      "Description : ${controller.descriptionT.value} Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                      textAlign: TextAlign.justify,
+                    RichText(
+                      text: TextSpan(
+                          text: 'Description :',
+                          style: helvetica_bold.copyWith(
+                              color: Colors.black, fontSize: 18),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: ' ${controller.descriptionT.value} ',
+                                style: HelveticaNeue_Medium.copyWith(
+                                    color: Colors.black))
+                          ]),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      "PIC : ${controller.picT.value} ",
-                      textAlign: TextAlign.justify,
+                    RichText(
+                      text: TextSpan(
+                          text: 'Person In Charge :',
+                          style: helvetica_bold.copyWith(
+                              color: Colors.black, fontSize: 18),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: ' ${controller.picT.value} ',
+                                style: HelveticaNeue_Medium.copyWith(
+                                    color: Colors.black))
+                          ]),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      "Tanggal Pembelian : ${controller.dateT.value} ",
-                      textAlign: TextAlign.justify,
+                    RichText(
+                      text: TextSpan(
+                          text: 'Tanggal Pembelian : ',
+                          style: helvetica_bold.copyWith(
+                              color: Colors.black, fontSize: 18),
+                          children: <TextSpan>[
+                            TextSpan(
+                                text:
+                                    '${controller.dateT.value.substring(0, 10)}',
+                                style: HelveticaNeue_Medium.copyWith(
+                                    color: Colors.black))
+                          ]),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                   ],
                 ),
               ),
             ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                margin: EdgeInsets.only(left: 3, right: 3, bottom: 3),
-                height: 100,
-                width: double.maxFinite,
-                color: Colors.red,
-              ),
-            ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.edit), label: "Edit"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.remove_circle),
+            label: "Remove",
+          ),
+        ],
       ),
     );
   }
