@@ -9,6 +9,7 @@ abstract class Routes {
   static const TAMBAH = _Paths.TAMBAH;
   static const DETAILITEM = _Paths.DETAILITEM;
   static const DAFTAR_LIST = _Paths.DAFTAR_LIST;
+  static const EDIT_ITEM = _Paths.EDIT_ITEM;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const TAMBAH = '/tambah';
   static const DETAILITEM = '/detailitem';
   static const DAFTAR_LIST = '/daftar-list';
+  static const EDIT_ITEM = '/edit-item';
 }

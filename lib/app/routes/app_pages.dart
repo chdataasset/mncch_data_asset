@@ -4,6 +4,8 @@ import '../modules/daftar_list/bindings/daftar_list_binding.dart';
 import '../modules/daftar_list/views/daftar_list_view.dart';
 import '../modules/detailitem/bindings/detailitem_binding.dart';
 import '../modules/detailitem/views/detailitem_view.dart';
+import '../modules/edit_item/bindings/edit_item_binding.dart';
+import '../modules/edit_item/views/edit_item_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/home/views/home_view_small.dart';
@@ -53,6 +55,11 @@ class AppPages {
       name: _Paths.DAFTAR_LIST,
       page: () => DaftarListView(),
       binding: DaftarListBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_ITEM,
+      page: () => EditItemView(),
+      binding: EditItemBinding(),
     ),
   ];
 }
