@@ -20,7 +20,7 @@ class DaftarListViewSmall extends GetView<DaftarListController> {
             width: width,
             height: height,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.centerRight,
                   colors: [Colors.red, Colors.purple]),
@@ -44,7 +44,7 @@ class DaftarListViewSmall extends GetView<DaftarListController> {
                       : RefreshIndicator(
                           onRefresh: () => controller.getData(),
                           child: (controller.isloading.value)
-                              ? Center(child: const CircularProgressIndicator())
+                              ? const Center(child: CircularProgressIndicator())
                               // : Text("loading")
                               : ListView.builder(
                                   itemCount: controller.getAllData().length,

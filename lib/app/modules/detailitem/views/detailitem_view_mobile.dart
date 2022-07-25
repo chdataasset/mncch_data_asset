@@ -1,4 +1,5 @@
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:ch_data_asset/app/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -134,8 +135,17 @@ class DetailitemViewMobile extends GetView<DetailitemController> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.edit), label: "Edit"),
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: IconButton(
+              onPressed: () {
+                String itemEdit = controller.idAssetT.value;
+                Get.toNamed(Routes.EDIT_ITEM, arguments: itemEdit);
+              },
+              icon: const Icon(Icons.edit),
+            ),
+            label: "Edit",
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.remove_circle),
             label: "Remove",
