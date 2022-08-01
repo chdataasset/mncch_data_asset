@@ -54,13 +54,13 @@ class EditItemSmall extends GetView<EditItemController> {
                       controller: controller.idAssetC,
                       onChanged: (value) {
                         value = controller.idAssetC.text;
-                        // controller.isiBarcode.value = value;
+                        controller.isiBarcode.value = value;
                       },
                       onSaved: (value) {
                         controller.idAssetC.text = value!;
                       },
                       validator: (value) {
-                        // return controller.validateidAsset(value!);
+                        return controller.validateidAsset(value!);
                       },
                     ),
                     SizedBox(
@@ -165,7 +165,8 @@ class EditItemSmall extends GetView<EditItemController> {
                         controller.dateC.text =
                             DateFormat('dd-MMM-yyyy').format(date);
                       },
-                      onChanged: (value) => value = controller.dateC.text,
+                      onChanged: (value) =>
+                          value = controller.dateC.text.substring(0, 10),
                     ),
                     SizedBox(
                       height: 12,
@@ -180,7 +181,7 @@ class EditItemSmall extends GetView<EditItemController> {
                                 children: [
                                   TextButton(
                                     onPressed: () {
-                                      // controller.upload(ImageSource.camera);
+                                      controller.upload(ImageSource.camera);
                                       Get.back();
                                     },
                                     child: Text(
@@ -190,7 +191,7 @@ class EditItemSmall extends GetView<EditItemController> {
                                   ),
                                   TextButton(
                                     onPressed: () {
-                                      // controller.upload(ImageSource.gallery);
+                                      controller.upload(ImageSource.gallery);
                                       Get.back();
                                     },
                                     child: Text(
@@ -239,10 +240,14 @@ class EditItemSmall extends GetView<EditItemController> {
                                 : Container(
                                     width: double.infinity,
                                     height: 200,
-                                    child: Image.network(
-                                      "${controller.imageUrl.value}",
-                                      fit: BoxFit.fill,
-                                    )),
+                                    child: (controller
+                                            .imageUrlStr.value.isNotEmpty)
+                                        ? Image.file(controller.xfile)
+                                        : Image.network(
+                                            "${controller.imageUrl.value}",
+                                            fit: BoxFit.fill,
+                                          ),
+                                  ),
                           ),
                           Divider(
                             height: 2,
@@ -258,7 +263,7 @@ class EditItemSmall extends GetView<EditItemController> {
                     ),
                     ElevatedButton(
                         onPressed: () {
-                          // controller.simpan();
+                          controller.simpan();
                         },
                         child: Text("Submit")),
                     SizedBox(
