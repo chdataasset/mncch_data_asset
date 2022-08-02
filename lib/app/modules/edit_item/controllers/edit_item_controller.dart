@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'dart:typed_data';
 
+import 'package:ch_data_asset/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -87,32 +88,8 @@ class EditItemController extends GetxController {
         print(dateC.text);
       }
     } catch (err) {
-      print(err);
+      print("err");
     }
-  }
-
-  Future<void> simpan() async {
-    isLoading.value = true;
-
-    try {
-      print(id.value);
-      PostgrestResponse<dynamic> result =
-          await client.from("tbl_masteritem").update({
-        "id_asset": idAssetC.text,
-        "name_asset": nameC.text,
-        "desc_asset": descriptionC.text,
-        "pic_asset": picC.text,
-        "tgl_beli": dateC.text,
-        // "user_created": userName.value,
-        // "created_at": DateTime.now().toIso8601String(),
-        // "imageUrl": imageUrlStr.value,
-      }).match({"id": id.value}).execute();
-      print(result.status);
-      isLoading.value = false;
-    } catch (err) {
-      print(err);
-    }
-    isLoading.value = false;
   }
 
   Future<void> upload(ImageSource imageSource) async {
@@ -142,15 +119,16 @@ class EditItemController extends GetxController {
       filepath.value = filePath.toString();
       filebytes = bytes;
       xfile = tmpFile;
-      imageUrl.value = fileName;
+      // imageUrl.value = fileName;
 
       final Directory extDir = await getApplicationDocumentsDirectory();
       String dirPath = extDir.path;
       final String extfilePath = '$dirPath/$fileName';
 
       final File newImage = await tmpFile.copy(extfilePath);
-
-      imageUrl.value = newImage.toString();
+      imageUrlStr.value = fileName;
+      // imageUrl.value = newImage.toString();
+      print(imageUrl.value);
 
       if (imageFile != null) {
         tmpFile = newImage;
@@ -165,6 +143,68 @@ class EditItemController extends GetxController {
 
     isLoading.value = false;
     update();
+  }
+
+  Future<void> simpan() async {
+    isLoading.value = true;
+    if (idAssetC.text.isNotEmpty ||
+        nameC.text.isNotEmpty ||
+        descriptionC.text.isNotEmpty ||
+        picC.text.isNotEmpty ||
+        dateC.text.isNotEmpty ||
+        imageUrlStr.value.isNotEmpty) {
+      try {
+        await simpanGambar(filepath.value, filebytes);
+        await client
+            .from("tbl_masteritem")
+            .update({
+              "id_asset": idAssetC.text,
+              "name_asset": nameC.text,
+              "desc_asset": descriptionC.text,
+              "pic_asset": picC.text,
+              "tgl_beli": dateC.text,
+              // "user_created": userName.value,
+              // "created_at": DateTime.now().toIso8601String(),
+              "imageUrl": imageUrlStr.value,
+            })
+            .match({"id": id.value})
+            .execute()
+            .then((value) {
+              if (value.data != null) {
+                print("berhasil");
+                Get.defaultDialog(
+                    title: "Success",
+                    middleText: "Data Telah Tersimpan",
+                    textConfirm: "Ok",
+                    onConfirm: () {
+                      // clearText();
+                      Get.back();
+                    });
+                isSimpan.value = true;
+              }
+            });
+
+        isLoading.value = false;
+      } catch (err) {
+        print(err);
+      }
+    }
+
+    isLoading.value = false;
+  }
+
+  simpanGambar(path, bytes) async {
+    try {
+      final response =
+          await client.storage.from('images/images').uploadBinary(path, bytes);
+
+      StorageResponse<String> imageUrlResponse =
+          await client.storage.from('images/images').getPublicUrl(path);
+    } catch (err) {
+      print(err);
+      errorDialog;
+      Get.back();
+    }
   }
 
   ///=================CEK VALIDASI==============
