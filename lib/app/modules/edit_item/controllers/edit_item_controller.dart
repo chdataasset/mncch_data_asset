@@ -21,9 +21,11 @@ class EditItemController extends GetxController {
   RxString imageUrl = "".obs;
   RxString filepath = "".obs;
   RxString imageUrlStr = "".obs;
+  RxString imageUrlName = "".obs;
   RxString sourceImg = "".obs;
   RxList listImg = [].obs;
   RxBool isSimpan = false.obs;
+  RxBool isUpload = false.obs;
   RxInt id = 0.obs;
   RxString idAssetT = "".obs;
   RxString nameT = "".obs;
@@ -82,6 +84,8 @@ class EditItemController extends GetxController {
         descriptionC.text = element.descAsset;
         picC.text = element.picAsset;
         imageUrl.value = BaseUrl.cPathImgUrl + element.imageUrl;
+        imageUrlName.value = element.imageUrl;
+        // xfile = File(BaseUrl.cPathImgUrl + element.imageUrl);
         tglBeliC.text = element.tglBeli;
         DateTime tanggal = DateTime.parse(tglBeliC.text);
         dateC.text = DateFormat("dd-MMM-yyyy").format(tanggal);
@@ -94,7 +98,7 @@ class EditItemController extends GetxController {
 
   Future<void> upload(ImageSource imageSource) async {
     isLoading.value = true;
-
+    isUpload.value = true;
     try {
       final picker = ImagePicker();
       final imageFile = await picker.pickImage(
@@ -147,6 +151,7 @@ class EditItemController extends GetxController {
 
   Future<void> simpan() async {
     isLoading.value = true;
+
     if (idAssetC.text.isNotEmpty ||
         nameC.text.isNotEmpty ||
         descriptionC.text.isNotEmpty ||
@@ -154,7 +159,30 @@ class EditItemController extends GetxController {
         dateC.text.isNotEmpty ||
         imageUrlStr.value.isNotEmpty) {
       try {
-        await simpanGambar(filepath.value, filebytes);
+        if (isUpload.value == true) {
+          await simpanGambar(filepath.value, filebytes);
+          print("--------");
+          print(xfile);
+          print("--------");
+          print(imageUrl.value);
+          print("--------");
+          print(imageUrlStr.value);
+          print("--------");
+          print(imageUrlName.value);
+        } else {
+          xfile = File(imageUrl.value);
+
+          // imageUrlStr.value = imageUrlName.value;
+          print("==========");
+          print(xfile);
+          print("==========");
+          print(imageUrl.value);
+          print("==========");
+          print(imageUrlStr.value);
+          print("==========");
+          print(imageUrlName.value);
+        }
+
         await client
             .from("tbl_masteritem")
             .update({
@@ -165,7 +193,9 @@ class EditItemController extends GetxController {
               "tgl_beli": dateC.text,
               // "user_created": userName.value,
               // "created_at": DateTime.now().toIso8601String(),
-              "imageUrl": imageUrlStr.value,
+              "imageUrl": (isUpload.value == true)
+                  ? imageUrlStr.value
+                  : imageUrlName.value,
             })
             .match({"id": id.value})
             .execute()
@@ -183,7 +213,7 @@ class EditItemController extends GetxController {
                 isSimpan.value = true;
               }
             });
-
+        isUpload.value = false;
         isLoading.value = false;
       } catch (err) {
         print(err);

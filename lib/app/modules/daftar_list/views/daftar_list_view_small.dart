@@ -46,89 +46,98 @@ class DaftarListViewSmall extends GetView<DaftarListController> {
                           child: (controller.isloading.value)
                               ? const Center(child: CircularProgressIndicator())
                               // : Text("loading")
-                              : ListView.builder(
-                                  itemCount: controller.getAllData().length,
-                                  itemBuilder: (context, index) {
-                                    TblMasterItem itemBody =
-                                        controller.getAllData[index];
-                                    return Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Get.toNamed(Routes.DETAILITEM,
-                                              arguments: itemBody);
-                                        },
-                                        child: Container(
-                                            width: double.infinity,
-                                            height: 100,
-                                            color: kLightgreen,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(3.0),
-                                                  child: Container(
-                                                    height: double.maxFinite,
-                                                    width: 100,
-
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            width: 3,
-                                                            color:
-                                                                Colors.white)),
-                                                    // child: Text(
-                                                    //     "${BaseUrl.cPathImgUrl}${itemBody.imageUrl}")
-                                                    child: Image.network(
-                                                      "${BaseUrl.cPathImgUrl}${itemBody.imageUrl}",
-                                                      fit: BoxFit.fill,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 10.0,
-                                                          bottom: 2,
-                                                          right: 2),
-                                                  child: Column(
+                              : SafeArea(
+                                  child: SingleChildScrollView(
+                                    child: ListView.builder(
+                                        itemCount: controller.getAllData().length,
+                                        itemBuilder: (context, index) {
+                                          TblMasterItem itemBody =
+                                              controller.getAllData[index];
+                                          return Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: InkWell(
+                                              onTap: () {
+                                                Get.toNamed(Routes.DETAILITEM,
+                                                    arguments: itemBody);
+                                              },
+                                              child: Container(
+                                                  width: double.infinity,
+                                                  height: 100,
+                                                  color: kLightgreen,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
                                                     children: [
-                                                      SizedBox(
-                                                        // height: 30,
-                                                        width: 250,
-                                                        child: Align(
-                                                          alignment: Alignment
-                                                              .centerLeft,
-                                                          child: Text(
-                                                            "${itemBody.nameAsset} ",
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize: 20),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets.all(
+                                                                3.0),
+                                                        child: Container(
+                                                          height:
+                                                              double.maxFinite,
+                                                          width: 100,
+                                  
+                                                          decoration: BoxDecoration(
+                                                              border: Border.all(
+                                                                  width: 3,
+                                                                  color: Colors
+                                                                      .white)),
+                                                          // child: Text(
+                                                          //     "${BaseUrl.cPathImgUrl}${itemBody.imageUrl}")
+                                                          child: Image.network(
+                                                            "${BaseUrl.cPathImgUrl}${itemBody.imageUrl}",
+                                                            fit: BoxFit.fill,
                                                           ),
                                                         ),
                                                       ),
-                                                      const SizedBox(
-                                                        height: 1,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 250,
-                                                        child: Text(
-                                                          itemBody.descAsset,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets.only(
+                                                                left: 10.0,
+                                                                bottom: 2,
+                                                                right: 2),
+                                                        child: Column(
+                                                          children: [
+                                                            SizedBox(
+                                                              // height: 30,
+                                                              width: 250,
+                                                              child: Align(
+                                                                alignment: Alignment
+                                                                    .centerLeft,
+                                                                child: Text(
+                                                                  "${itemBody.nameAsset} ",
+                                                                  style: const TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontSize:
+                                                                          20),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 1,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 250,
+                                                              child: Text(
+                                                                itemBody
+                                                                    .descAsset,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ),
+                                                      )
                                                     ],
-                                                  ),
-                                                )
-                                              ],
-                                            )),
-                                      ),
-                                    );
-                                  }),
+                                                  )),
+                                            ),
+                                          );
+                                        }),
+                                  ),
+                                ),
                         ),
                 );
               }),
