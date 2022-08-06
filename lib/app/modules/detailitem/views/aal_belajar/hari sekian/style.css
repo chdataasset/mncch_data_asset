@@ -1,0 +1,18 @@
+body{
+    background-color: black;
+}
+
+h1{
+color: red;
+text-align: center;
+}
+/* h1 adalah judul */
+#satu{
+    color:rgb(111, 81, 204);
+    text-align: justify;
+}
+#dua{
+    color: rgb(111, 110, 107);
+    text-indent: 100px;
+    letter-spacing: 5px;
+}
