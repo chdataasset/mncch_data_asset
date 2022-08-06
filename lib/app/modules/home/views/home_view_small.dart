@@ -27,7 +27,7 @@ class HomeViewSmall extends GetView<HomeController> {
               )
             ],
           ),
-          onPressed: () => controller.getAllList(),
+          onPressed: () => controller.scanBarcode(),
         ),
       ),
       body: FutureBuilder(

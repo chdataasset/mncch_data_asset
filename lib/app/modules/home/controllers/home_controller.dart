@@ -1,5 +1,7 @@
 import 'package:ch_data_asset/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -9,6 +11,8 @@ class HomeController extends GetxController {
   RxList<TableListHome> allList = List<TableListHome>.empty().obs;
 
   RxBool isLoading = false.obs;
+  RxString scannedQrCode = "".obs;
+  var qrCode = "".obs;
 
   final emailC = TextEditingController();
   final passwordC = TextEditingController();
@@ -50,6 +54,30 @@ class HomeController extends GetxController {
 
     isLoading.value = false;
     Get.back();
+  }
+
+  Future<void> scanBarcode() async {
+    try {
+      scannedQrCode.value = await FlutterBarcodeScanner.scanBarcode(
+        "#ff6666",
+        "Cancel",
+        true,
+        ScanMode.QR,
+      );
+
+      if (scannedQrCode.value != "-1") {
+        Get.defaultDialog(
+            onConfirm: () => Get.back(),
+            title: "Result",
+            middleText: "QR Code ${scannedQrCode.value}");
+
+        // Get.snackbar("Result", "QR Code ${scannedQrCode.value}",
+        //     snackPosition: SnackPosition.BOTTOM,
+        //     backgroundColor: Colors.green,
+        //     colorText: Colors.white,
+        //     duration: Duration(seconds: 2));
+      }
+    } on PlatformException {}
   }
 
   void GetRoute(route) {

@@ -1,4 +1,4 @@
-import 'package:ch_data_asset/_assets/data/struc/tbl_masteritem.dart';
+import '../../../../_assets/data/struc/tbl_masteritem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -8,8 +8,6 @@ class DaftarListController extends GetxController {
   RxList getAllData = List.empty().obs;
 
   TextEditingController searchC = TextEditingController();
-
-
 
   Future getData() async {
     getAllData.clear(); //menghapus data list
