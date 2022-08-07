@@ -11,25 +11,25 @@ class HomeViewSmall extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: AvatarGlow(
-        glowColor: Colors.white,
-        showTwoGlows: true,
-        endRadius: 50.0,
-        child: FloatingActionButton(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.qr_code_2_outlined),
-              Text(
-                "Scan",
-                style: TextStyle(fontSize: 8),
-              )
-            ],
-          ),
-          onPressed: () => controller.scanBarcode(),
-        ),
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      // floatingActionButton: AvatarGlow(
+      //   glowColor: Colors.white,
+      //   showTwoGlows: true,
+      //   endRadius: 50.0,
+      //   child: FloatingActionButton(
+      //     child: Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         Icon(Icons.qr_code_2_outlined),
+      //         Text(
+      //           "Scan",
+      //           style: TextStyle(fontSize: 8),
+      //         )
+      //       ],
+      //     ),
+      //     onPressed: () => controller.scanBarcode(),
+      //   ),
+      // ),
       body: FutureBuilder(
         future: controller.dataFuture,
         builder: (context, snapshot) {

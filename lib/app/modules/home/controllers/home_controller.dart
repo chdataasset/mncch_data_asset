@@ -66,10 +66,14 @@ class HomeController extends GetxController {
       );
 
       if (scannedQrCode.value != "-1") {
-        Get.defaultDialog(
-            onConfirm: () => Get.back(),
-            title: "Result",
-            middleText: "QR Code ${scannedQrCode.value}");
+     
+     
+
+
+        // Get.defaultDialog(
+        //     onConfirm: () => Get.back(),
+        //     title: "Result",
+        //     middleText: "QR Code ${scannedQrCode.value}");
 
         // Get.snackbar("Result", "QR Code ${scannedQrCode.value}",
         //     snackPosition: SnackPosition.BOTTOM,

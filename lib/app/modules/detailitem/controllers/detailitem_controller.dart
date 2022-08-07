@@ -10,6 +10,8 @@ import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DetailitemController extends GetxController {
+  RxString scannedQrCode = "".obs;
+
   RxString userName = "".obs;
   RxString isiBarcode = "".obs;
   RxString imageUrl = "".obs;
@@ -54,6 +56,26 @@ class DetailitemController extends GetxController {
   File? ambilGambar;
   late File imageFile;
 
+  Future<void> scanBarcode() async {
+    try {
+      scannedQrCode.value = await FlutterBarcodeScanner.scanBarcode(
+        "#ff6666",
+        "Cancel",
+        true,
+        ScanMode.QR,
+      );
+
+      if (scannedQrCode.value != "-1") {
+        isiBarcode.value = scannedQrCode.value;
+        print(isiBarcode.value);
+
+        cariData(isiBarcode.value);
+      } else {
+        // Get.back();
+        print("Tidak ada");
+      }
+    } on PlatformException {}
+  }
   // String? validateidAsset(String value) {
   //   if (value.length <= 6 || value.isEmpty) {
   //     return "ID Asset Wajib Diisi";
@@ -61,35 +83,35 @@ class DetailitemController extends GetxController {
   //   return null;
   // }
 
-  // Future<dynamic> cariData(String nilai) async {
-  //   try {
-  //     PostgrestResponse<dynamic> result = await client
-  //         .from('tbl_masteritem')
-  //         .select('')
-  //         .match({'id_asset': nilai}).execute();
+  Future<dynamic> cariData(String nilai) async {
+    try {
+      PostgrestResponse<dynamic> result = await client
+          .from('tbl_masteritem')
+          .select('')
+          .match({'id_asset': nilai}).execute();
 
-  //     final data = result.data;
-  //     print(result.data);
-  //     final error = result.error;
-  //     List<TblMasterItem> dataNote =
-  //         TblMasterItem.fromJsonList(result.data as List);
+      final data = result.data;
+      print(result.data);
+      final error = result.error;
+      List<TblMasterItem> dataNote =
+          TblMasterItem.fromJsonList(result.data as List);
 
-  //     allGetData.value = List<TblMasterItem>.from(dataNote);
+      allGetData.value = List<TblMasterItem>.from(dataNote);
 
-  //     allGetData.refresh();
+      allGetData.refresh();
 
-  //     for (var item in dataNote) {
-  //       print(item.nameAsset);
-  //       nameC.text = item.nameAsset;
-  //       descriptionC.text = item.descAsset;
-  //       picC.text = item.picAsset;
-  //       DateTime tanggal = DateTime.parse(item.tglBeli);
-  //       dateC.text = DateFormat('dd-MMM-yyyy').format(tanggal);
-  //     }
-  //   } catch (err) {
-  //     print(err);
-  //   }
-  // }
+      for (var item in dataNote) {
+        idAssetT.value = item.idAsset;
+        nameT.value = item.nameAsset;
+        descriptionT.value = item.descAsset;
+        picT.value = item.picAsset;
+        dateT.value = item.tglBeli;
+        imageUrlT.value = item.imageUrl;
+      }
+    } catch (err) {
+      print(err);
+    }
+  }
 
   @override
   void onInit() {

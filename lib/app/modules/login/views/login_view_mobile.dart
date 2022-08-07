@@ -190,26 +190,27 @@ class LoginViewMobile extends GetView<LoginController> {
                                               : Text("SUBMIT"),
                                         ),
                                       ),
-                                      Row(
-                                        children: [
-                                          Text("Don't have an account?"),
-                                          Expanded(
-                                            child: TextButton(
-                                                onPressed: () {
-                                                  Get.toNamed(Routes.REGISTER);
-                                                },
-                                                child: Text(
-                                                  "Sign Up",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.blue,
-                                                      fontStyle:
-                                                          FontStyle.italic),
-                                                )),
-                                          )
-                                        ],
-                                      )
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                            onEnter: (event) =>
+                                                Get.toNamed(Routes.REGISTER),
+                                            text: "Don't have an account?  ",
+                                            style: helvetica_bold.copyWith(
+                                                color: Colors.black,
+                                                fontSize: 18),
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                  text: 'Sign Up',
+                                                  style: HelveticaNeue_Medium
+                                                      .copyWith(
+                                                          color: Colors.blue,
+                                                          fontStyle:
+                                                              FontStyle.italic))
+                                            ]),
+                                      ),
                                     ],
                                   ),
                                 ),
