@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../../../_assets/constant.dart';
 import '../../../../_assets/data/struc/tbl_listhome.dart';
 import '../controllers/home_controller.dart';
 
@@ -30,26 +31,27 @@ class HomeViewSmall extends GetView<HomeController> {
       //     onPressed: () => controller.scanBarcode(),
       //   ),
       // ),
+
       body: FutureBuilder(
         future: controller.dataFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
           return Obx(() => (controller.allList.length == null)
-              ? Center(
-                  child: Text(
+              ? const Center(
+                  child: const Text(
                     "Data Tidak Ada",
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
                 )
               : RefreshIndicator(
                   onRefresh: () => controller.getAllList(),
                   child: (controller.isLoading.value)
-                      ? CircularProgressIndicator()
+                      ? const CircularProgressIndicator()
                       // : Text("loading")
                       : SafeArea(
                           child: Center(child:
@@ -57,7 +59,7 @@ class HomeViewSmall extends GetView<HomeController> {
                             final width = constraints.maxWidth;
                             final height = constraints.maxHeight;
                             return Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   gradient: LinearGradient(
                                       begin: Alignment.topLeft,
                                       end: Alignment.centerRight,
@@ -73,15 +75,18 @@ class HomeViewSmall extends GetView<HomeController> {
                                           decoration: BoxDecoration(
                                             color:
                                                 Colors.white.withOpacity(0.2),
-                                            borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(25),
-                                              topRight: Radius.circular(25),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topLeft:
+                                                  const Radius.circular(25),
+                                              topRight:
+                                                  const Radius.circular(25),
                                             ),
                                           ),
                                           child: GridView.builder(
                                             controller: controllerdrag,
                                             gridDelegate:
-                                                SliverGridDelegateWithFixedCrossAxisCount(
+                                                const SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 3,
                                               crossAxisSpacing: 2,
                                               mainAxisSpacing: 2,
@@ -109,12 +114,13 @@ class HomeViewSmall extends GetView<HomeController> {
                                                           style: ElevatedButton
                                                               .styleFrom(
                                                             shape:
-                                                                CircleBorder(),
+                                                                const CircleBorder(),
                                                             padding:
-                                                                EdgeInsets.all(
-                                                                    1),
+                                                                const EdgeInsets
+                                                                    .all(3),
 
-                                                            primary: Color.fromARGB(
+                                                            primary: const Color
+                                                                    .fromARGB(
                                                                 255,
                                                                 212,
                                                                 216,
@@ -153,20 +159,16 @@ class HomeViewSmall extends GetView<HomeController> {
                                                               ),
                                                             ],
                                                           )),
-                                                      SizedBox(
+                                                      const SizedBox(
                                                         height: 5,
                                                       ),
                                                       Flexible(
                                                         child: Text(
-                                                          "${allData.judul}",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
+                                                            "${allData.judul}",
+                                                            style: FreeSansReg
+                                                                .copyWith(
+                                                                    color: Colors
+                                                                        .white)),
                                                       ),
                                                     ],
                                                   ));

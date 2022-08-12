@@ -162,3 +162,13 @@ var HelveticaNeueMed = TextStyle(
   fontSize: 18,
   color: Colors.black,
 );
+var FreeSansReg = TextStyle(
+  fontFamily: 'FreeSansReg',
+  fontSize: 18,
+  color: Colors.black,
+);
+var FreeSansBold = TextStyle(
+  fontFamily: 'FreeSansBold',
+  fontSize: 18,
+  color: Colors.black,
+);

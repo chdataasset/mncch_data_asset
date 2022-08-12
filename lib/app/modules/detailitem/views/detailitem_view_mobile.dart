@@ -1,6 +1,5 @@
-import 'package:barcode_widget/barcode_widget.dart';
 import 'package:ch_data_asset/app/routes/app_pages.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -8,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../_assets/constant.dart';
-import '../../../../_assets/data/struc/tbl_masteritem.dart';
+
 import '../controllers/detailitem_controller.dart';
 
 class DetailitemViewMobile extends GetView<DetailitemController> {
@@ -19,6 +18,7 @@ class DetailitemViewMobile extends GetView<DetailitemController> {
     // DateTime now = controller.dateT.value;
     // String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text('Detail Item'),
         centerTitle: true,

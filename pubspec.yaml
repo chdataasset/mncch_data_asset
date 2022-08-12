@@ -62,6 +62,12 @@ flutter:
     - family: HelveticaNeueMed
       fonts:
         - asset: assets/fonts/helveticaneue/HelveticaNeueMed.ttf
+    - family: FreeSansReg
+      fonts:
+        - asset: assets/fonts/helveticaneue/FreeSans.ttf
+    - family: FreeSansBold
+      fonts:
+        - asset: assets/fonts/helveticaneue/FreeSansBold.ttf
 
   assets:
     - assets/images/

@@ -26,7 +26,7 @@ class LoginViewMobile extends GetView<LoginController> {
     return Container(
       decoration: BoxDecoration(
         image: new DecorationImage(
-          image: AssetImage("assets/images/background.jpg"),
+          image: AssetImage("assets/images/background.png"),
           fit: BoxFit.cover,
         ),
       ),
