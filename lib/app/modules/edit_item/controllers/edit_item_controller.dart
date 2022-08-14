@@ -73,6 +73,8 @@ class EditItemController extends GetxController {
       getAllData.value = List.from(dataItem);
 
       getAllData.refresh();
+
+    
       DateTime date = DateTime(1900);
 
       // Get.focusScope(date());

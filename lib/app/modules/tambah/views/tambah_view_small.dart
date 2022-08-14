@@ -5,6 +5,7 @@ import 'package:ch_data_asset/app/routes/app_pages.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../../_assets/constant.dart';
 import '../views/widget/buildimage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -21,27 +22,17 @@ class TambahViewSmall extends GetView<TambahController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tambah Data'),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(color: Colors.white),
+        ),
+        title: Text('Tambah Data', style: FreeSansBold),
         centerTitle: true,
-        backgroundColor: Colors.white70,
         actions: [
-          GestureDetector(
-            onTap: () => controller.clearText(),
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Container(
-                width: 25,
-                height: 25,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(
-                      'assets/icons/icons8-clear-48.png',
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              icon: Icon(Icons.arrow_back_ios_new))
         ],
       ),
       body: SafeArea(
@@ -60,18 +51,12 @@ class TambahViewSmall extends GetView<TambahController> {
                             errorCorrectLevel: BarcodeQRCorrectionLevel.high,
                           ),
                           data: controller.isiBarcode.value,
-                          width: 75,
-                          height: 75,
+                          width: width * 0.15,
+                          height: 50,
                           decoration: BoxDecoration(
                             color: Colors.white70,
                           ),
                         )),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
                     TextFormField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -93,6 +78,9 @@ class TambahViewSmall extends GetView<TambahController> {
                       validator: (value) {
                         return controller.validateidAsset(value!);
                       },
+                    ),
+                    SizedBox(
+                      height: 12,
                     ),
                     SizedBox(
                       height: 12,
@@ -125,6 +113,8 @@ class TambahViewSmall extends GetView<TambahController> {
                       height: 12,
                     ),
                     TextFormField(
+                      minLines: 5,
+                      maxLines: 5,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),

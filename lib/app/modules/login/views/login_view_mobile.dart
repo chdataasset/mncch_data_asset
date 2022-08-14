@@ -1,4 +1,5 @@
 import 'package:ch_data_asset/app/routes/app_pages.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -198,17 +199,19 @@ class LoginViewMobile extends GetView<LoginController> {
                                             onEnter: (event) =>
                                                 Get.toNamed(Routes.REGISTER),
                                             text: "Don't have an account?  ",
-                                            style: helvetica_bold.copyWith(
-                                                color: Colors.black,
-                                                fontSize: 18),
+                                            style: FreeSansBold,
                                             children: <TextSpan>[
                                               TextSpan(
+                                                  recognizer:
+                                                      new TapGestureRecognizer()
+                                                        ..onTap = () =>
+                                                            Get.toNamed(Routes
+                                                                .REGISTER),
                                                   text: 'Sign Up',
-                                                  style: HelveticaNeue_Medium
-                                                      .copyWith(
-                                                          color: Colors.blue,
-                                                          fontStyle:
-                                                              FontStyle.italic))
+                                                  style: FreeSansReg.copyWith(
+                                                      color: Colors.blue,
+                                                      fontStyle:
+                                                          FontStyle.italic))
                                             ]),
                                       ),
                                     ],

@@ -21,6 +21,7 @@ void main() async {
   runApp(
     GetMaterialApp(
       theme: ThemeData(
+          fontFamily: 'FreeSansReg',
           primaryColor: kLightBlue,
           iconTheme: IconThemeData(color: Colors.lightBlueAccent)),
       debugShowCheckedModeBanner: false,

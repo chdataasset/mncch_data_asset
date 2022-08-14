@@ -57,6 +57,7 @@ class LoginController extends GetxController {
             "dataLogin",
             {
               "email": client.auth.currentUser!.email,
+              "userUiD": client.auth.currentUser!.id,
               "password": passwordC.text,
               "rememberme": rememberme.value,
             },

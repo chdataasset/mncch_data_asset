@@ -219,14 +219,14 @@ class TambahController extends GetxController {
     super.onReady();
   }
 
-    @override
-    void onClose() {
-      // TODO: implement onClose
-      idAssetC.dispose();
-      nameC.dispose();
-      descriptionC.dispose();
-      picC.dispose();
-      dateC.dispose();
-      super.onClose();
-    }
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    idAssetC.dispose();
+    nameC.dispose();
+    descriptionC.dispose();
+    picC.dispose();
+    dateC.dispose();
+    super.onClose();
+  }
 }
