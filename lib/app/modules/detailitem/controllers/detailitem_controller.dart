@@ -108,6 +108,7 @@ class DetailitemController extends GetxController {
         dateT.value = item.tglBeli;
         imageUrlT.value = item.imageUrl;
       }
+      
     } catch (err) {
       print(err);
     }

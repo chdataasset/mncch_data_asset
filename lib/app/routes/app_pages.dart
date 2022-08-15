@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../modules/daftar_list/bindings/daftar_list_binding.dart';
 import '../modules/daftar_list/views/daftar_list_view.dart';
+
 import '../modules/detailitem/bindings/detailitem_binding.dart';
 import '../modules/detailitem/views/detailitem_view.dart';
 import '../modules/edit_item/bindings/edit_item_binding.dart';

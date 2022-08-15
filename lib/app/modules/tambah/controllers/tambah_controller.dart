@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:ch_data_asset/_assets/data/struc/tbl_department.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,7 +22,14 @@ class TambahController extends GetxController {
   RxString filepath = "".obs;
   RxString imageUrlStr = "".obs;
   RxString sourceImg = "".obs;
+  RxString selectedValue = "".obs;
+  RxInt id = 0.obs;
+  RxString kode = "".obs;
+  RxString nama = "".obs;
+  RxString kadept = "".obs;
+  RxString kadiv = "".obs;
   RxList listImg = [].obs;
+  RxList allItem = [].obs;
   RxBool isSimpan = false.obs;
   RxBool isCondition = false.obs;
 
@@ -173,24 +182,33 @@ class TambahController extends GetxController {
     }
   }
 
-  // void cekUser() async {
-  //   try {
-  //     PostgrestResponse<dynamic> result = await client
-  //         .from("tbl_user")
-  //         .select('')
-  //         .match({"user_id": client.auth..currentUser!.id}).execute();
+  dynamic getItem() async {
+    try {
+      PostgrestResponse<dynamic> result =
+          await client.from('tbl_department').select('').execute();
 
-  //     List<ModelTbluser> userList =
-  //         ModelTbluser.fromJsonList(result.data as List);
+      final data = result.data;
+      print(result.data);
 
-  //     for (var element in userList) {
-  //       userName.value = element.username;
-  //       print(userName.value);
-  //     }
-  //   } catch (err) {
-  //     print(err);
-  //   }
-  // }
+      final error = result.error;
+      List dataNote = Tdept.fromJsonList(result.data as List);
+      List<Tdept> namaItem = [];
+      namaItem = List<Tdept>.from(dataNote);
+      allItem.refresh();
+//  dataNote.forEach(
+//               (element) {
+//                 namaItem.add(allItem(
+
+//               },
+//             );
+
+      print("==========");
+      // print(namaItem[nama]);
+    } catch (err) {
+      print(err);
+      rethrow;
+    }
+  }
 
   ///=================CEK VALIDASI==============
   String? validateidAsset(String value) {
@@ -283,6 +301,7 @@ class TambahController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getItem();
   }
 
   @override

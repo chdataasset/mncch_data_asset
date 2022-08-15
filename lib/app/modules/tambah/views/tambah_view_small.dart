@@ -1,19 +1,13 @@
-import 'dart:io';
-import 'dart:isolate';
-
-import 'package:ch_data_asset/app/routes/app_pages.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import '../../../../_assets/constant.dart';
-import '../views/widget/buildimage.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import '../controllers/tambah_controller.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class TambahViewSmall extends GetView<TambahController> {
   @override
@@ -164,7 +158,7 @@ class TambahViewSmall extends GetView<TambahController> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        labelText: "Merk",
+                        labelText: "Brand",
                         prefixIcon: Icon(Icons.branding_watermark),
                       ),
                       autocorrect: false,
@@ -285,8 +279,15 @@ class TambahViewSmall extends GetView<TambahController> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         labelText: "Price",
-                        prefixIcon: Icon(Icons.attach_money),
+                        prefixIcon: Icon(Icons.wallet),
                       ),
+                      inputFormatters: [
+                        CurrencyTextInputFormatter(
+                          locale: "id",
+                          decimalDigits: 0,
+                          symbol: 'Rp. ',
+                        )
+                      ],
                       autocorrect: false,
                       keyboardType: TextInputType.number,
                       controller: controller.priceC,
@@ -352,6 +353,28 @@ class TambahViewSmall extends GetView<TambahController> {
                       validator: (value) {
                         return controller.validatedept(value!);
                       },
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          "Department :",
+                          style: FreeSansBold,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        // Expanded(
+                        //   child: CustomDropdownButton2(
+                        //     hint: 'Select Dept',
+                        //     dropdownItems: controller.allItem,
+                        //     value: controller.selectedValue.value,
+                        //     onChanged: (value) {
+                        //       controller.selectedValue.value = value;
+                        //     },
+                        //   ),
+                        // ),
+                      ],
                     ),
                     SizedBox(
                       height: 20,

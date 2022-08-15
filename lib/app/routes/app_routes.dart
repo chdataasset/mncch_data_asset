@@ -10,6 +10,7 @@ abstract class Routes {
   static const DETAILITEM = _Paths.DETAILITEM;
   static const DAFTAR_LIST = _Paths.DAFTAR_LIST;
   static const EDIT_ITEM = _Paths.EDIT_ITEM;
+  static const DEPARTMENT = _Paths.DEPARTMENT;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const DETAILITEM = '/detailitem';
   static const DAFTAR_LIST = '/daftar-list';
   static const EDIT_ITEM = '/edit-item';
+  static const DEPARTMENT = '/department';
 }
