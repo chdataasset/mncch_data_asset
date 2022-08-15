@@ -2,9 +2,10 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ch_data_asset/app/routes/app_pages.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:flutter_switch/flutter_switch.dart';
 import '../../../../_assets/constant.dart';
 import '../views/widget/buildimage.dart';
 import 'package:flutter/material.dart';
@@ -27,64 +28,84 @@ class TambahViewSmall extends GetView<TambahController> {
         ),
         title: Text('Tambah Data', style: FreeSansBold),
         centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: () {
-                Get.back();
-              },
-              icon: Icon(Icons.arrow_back_ios_new))
-        ],
+        leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.black,
+            )),
       ),
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.only(
+                  top: 20, left: 10.0, right: 10, bottom: 10),
               child: Form(
                 key: controller.registerFormKey,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Obx(() => BarcodeWidget(
-                          barcode: Barcode.qrCode(
-                            errorCorrectLevel: BarcodeQRCorrectionLevel.high,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              labelText: "Id Asset",
+                              prefixIcon: Icon(Icons.computer_outlined),
+                            ),
+                            autocorrect: false,
+                            keyboardType: TextInputType.name,
+                            controller: controller.idAssetC,
+                            onChanged: (value) {
+                              value = controller.idAssetC.text;
+                              controller.isiBarcode.value = value;
+                            },
+                            onSaved: (value) {
+                              controller.idAssetC.text = value!;
+                            },
+                            validator: (value) {
+                              return controller.validateidAsset(value!);
+                            },
                           ),
-                          data: controller.isiBarcode.value,
-                          width: width * 0.15,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.white70,
-                          ),
-                        )),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
                         ),
-                        labelText: "Id Asset",
-                        prefixIcon: Icon(Icons.computer_outlined),
-                      ),
-                      autocorrect: false,
-                      keyboardType: TextInputType.name,
-                      controller: controller.idAssetC,
-                      onChanged: (value) {
-                        value = controller.idAssetC.text;
-                        controller.isiBarcode.value = value;
-                      },
-                      onSaved: (value) {
-                        controller.idAssetC.text = value!;
-                      },
-                      validator: (value) {
-                        return controller.validateidAsset(value!);
-                      },
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Obx(() => Column(
+                              children: [
+                                BarcodeWidget(
+                                  barcode: Barcode.qrCode(
+                                    errorCorrectLevel:
+                                        BarcodeQRCorrectionLevel.high,
+                                  ),
+                                  data: controller.isiBarcode.value,
+                                  width: width * 0.15,
+                                  height: 45,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white70,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 3,
+                                ),
+                                Text(
+                                  "Tap To Print",
+                                  style: FreeSansReg.copyWith(fontSize: 8),
+                                )
+                              ],
+                            )),
+                      ],
                     ),
                     SizedBox(
-                      height: 12,
-                    ),
-                    SizedBox(
-                      height: 12,
-                      width: double.infinity,
+                      height: 10,
                     ),
                     TextFormField(
                       decoration: InputDecoration(
@@ -110,7 +131,7 @@ class TambahViewSmall extends GetView<TambahController> {
                       },
                     ),
                     SizedBox(
-                      height: 12,
+                      height: 10,
                     ),
                     TextFormField(
                       minLines: 5,
@@ -136,31 +157,151 @@ class TambahViewSmall extends GetView<TambahController> {
                       },
                     ),
                     SizedBox(
-                      height: 12,
+                      height: 10,
                     ),
                     TextFormField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        labelText: "Person In Charge",
-                        prefixIcon: Icon(Icons.person),
+                        labelText: "Merk",
+                        prefixIcon: Icon(Icons.branding_watermark),
                       ),
                       autocorrect: false,
                       keyboardType: TextInputType.name,
-                      controller: controller.picC,
+                      controller: controller.merkC,
                       onChanged: (value) {
-                        value = controller.picC.text;
+                        value = controller.merkC.text;
                       },
                       onSaved: (value) {
-                        controller.picC.text = value!;
+                        controller.merkC.text = value!;
                       },
                       validator: (value) {
-                        return controller.validatepic(value!);
+                        return controller.validatemerk(value!);
                       },
                     ),
                     SizedBox(
-                      height: 12,
+                      height: 10,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: "Type",
+                        prefixIcon: Icon(Icons.type_specimen_sharp),
+                      ),
+                      autocorrect: false,
+                      keyboardType: TextInputType.name,
+                      controller: controller.typeC,
+                      onChanged: (value) {
+                        value = controller.typeC.text;
+                      },
+                      onSaved: (value) {
+                        controller.typeC.text = value!;
+                      },
+                      validator: (value) {
+                        return controller.validatetype(value!);
+                      },
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: "Serial Number",
+                        prefixIcon: Icon(Icons.numbers),
+                      ),
+                      autocorrect: false,
+                      keyboardType: TextInputType.name,
+                      controller: controller.serialC,
+                      onChanged: (value) {
+                        value = controller.serialC.text;
+                      },
+                      onSaved: (value) {
+                        controller.serialC.text = value!;
+                      },
+                      validator: (value) {
+                        return controller.validateserial(value!);
+                      },
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: "Purchase Request",
+                        prefixIcon: Icon(Icons.document_scanner),
+                      ),
+                      autocorrect: false,
+                      keyboardType: TextInputType.name,
+                      controller: controller.PRC,
+                      onChanged: (value) {
+                        value = controller.PRC.text;
+                      },
+                      onSaved: (value) {
+                        controller.PRC.text = value!;
+                      },
+                      validator: (value) {
+                        return controller.validatepr(value!);
+                      },
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: "Purchase Order",
+                        prefixIcon: Icon(Icons.document_scanner),
+                      ),
+                      autocorrect: false,
+                      keyboardType: TextInputType.name,
+                      controller: controller.POC,
+                      onChanged: (value) {
+                        value = controller.POC.text;
+                      },
+                      onSaved: (value) {
+                        controller.POC.text = value!;
+                      },
+                      validator: (value) {
+                        return controller.validatepo(value!);
+                      },
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: "Price",
+                        prefixIcon: Icon(Icons.attach_money),
+                      ),
+                      autocorrect: false,
+                      keyboardType: TextInputType.number,
+                      controller: controller.priceC,
+                      onChanged: (value) {
+                        value = controller.priceC.text;
+                      },
+                      onSaved: (value) {
+                        controller.priceC.text = value!;
+                      },
+                      validator: (value) {
+                        return controller.validateprice(value!);
+                      },
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                     TextFormField(
                       controller: controller.dateC,
@@ -189,7 +330,82 @@ class TambahViewSmall extends GetView<TambahController> {
                       onChanged: (value) => value = controller.dateC.text,
                     ),
                     SizedBox(
-                      height: 12,
+                      height: 10,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: "Department",
+                        prefixIcon: Icon(Icons.table_rows),
+                      ),
+                      autocorrect: false,
+                      keyboardType: TextInputType.name,
+                      controller: controller.deptC,
+                      onChanged: (value) {
+                        value = controller.deptC.text;
+                      },
+                      onSaved: (value) {
+                        controller.deptC.text = value!;
+                      },
+                      validator: (value) {
+                        return controller.validatedept(value!);
+                      },
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelText: "Storage Location",
+                        prefixIcon: Icon(Icons.sd_storage_sharp),
+                      ),
+                      autocorrect: false,
+                      keyboardType: TextInputType.name,
+                      controller: controller.slocC,
+                      onChanged: (value) {
+                        value = controller.slocC.text;
+                      },
+                      onSaved: (value) {
+                        controller.slocC.text = value!;
+                      },
+                      validator: (value) {
+                        return controller.validatesloc(value!);
+                      },
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Condition :",
+                          style: FreeSansReg,
+                        ),
+                        Obx(() => FlutterSwitch(
+                            width: 75.0,
+                            height: 35.0,
+                            valueFontSize: 25.0,
+                            toggleSize: 20.0,
+                            value: controller.isCondition.value,
+                            borderRadius: 30.0,
+                            padding: 8.0,
+                            showOnOff: false,
+                            onToggle: (val) {
+                              controller.isCondition.value = val;
+                            })),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
                     ),
                     InkWell(
                       onDoubleTap: () {
@@ -206,7 +422,7 @@ class TambahViewSmall extends GetView<TambahController> {
                                     },
                                     child: Text(
                                       "Camera",
-                                      textScaleFactor: 2,
+                                      style: FreeSansBold,
                                     ),
                                   ),
                                   TextButton(
@@ -216,7 +432,7 @@ class TambahViewSmall extends GetView<TambahController> {
                                     },
                                     child: Text(
                                       "Gallery",
-                                      textScaleFactor: 2,
+                                      style: FreeSansBold,
                                     ),
                                   ),
                                   TextButton(
@@ -225,7 +441,7 @@ class TambahViewSmall extends GetView<TambahController> {
                                     },
                                     child: Text(
                                       "Batal",
-                                      textScaleFactor: 2,
+                                      style: FreeSansBold,
                                     ),
                                   ),
                                 ],
@@ -270,14 +486,16 @@ class TambahViewSmall extends GetView<TambahController> {
                           Divider(
                             height: 2,
                           ),
-                          Text(
-                            "Tap 2 kali Untuk Ganti Gambar",
-                            textScaleFactor: 1,
-                            style: TextStyle(
-                                color: Colors.red, fontStyle: FontStyle.italic),
-                          ),
+                          Text("Tap 2 kali Untuk Ganti Gambar",
+                              style: FreeSansReg.copyWith(
+                                  color: Colors.red,
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: 12)),
                         ],
                       ),
+                    ),
+                    SizedBox(
+                      height: 15,
                     ),
                     ElevatedButton(
                         onPressed: () {
