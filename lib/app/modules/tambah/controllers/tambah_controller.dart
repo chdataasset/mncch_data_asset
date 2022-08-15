@@ -22,11 +22,19 @@ class TambahController extends GetxController {
   RxString sourceImg = "".obs;
   RxList listImg = [].obs;
   RxBool isSimpan = false.obs;
+  RxBool isCondition = false.obs;
 
   TextEditingController idAssetC = TextEditingController();
   TextEditingController nameC = TextEditingController();
   TextEditingController descriptionC = TextEditingController();
-  TextEditingController picC = TextEditingController();
+  TextEditingController merkC = TextEditingController();
+  TextEditingController typeC = TextEditingController();
+  TextEditingController serialC = TextEditingController();
+  TextEditingController PRC = TextEditingController();
+  TextEditingController POC = TextEditingController();
+  TextEditingController priceC = TextEditingController();
+  TextEditingController deptC = TextEditingController();
+  TextEditingController slocC = TextEditingController();
   TextEditingController dateC = TextEditingController();
 
   final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
@@ -94,7 +102,14 @@ class TambahController extends GetxController {
     if (idAssetC.text.isNotEmpty ||
         nameC.text.isNotEmpty ||
         descriptionC.text.isNotEmpty ||
-        picC.text.isNotEmpty ||
+        merkC.text.isNotEmpty ||
+        typeC.text.isNotEmpty ||
+        serialC.text.isNotEmpty ||
+        PRC.text.isNotEmpty ||
+        POC.text.isNotEmpty ||
+        priceC.text.isNotEmpty ||
+        deptC.text.isNotEmpty ||
+        slocC.text.isNotEmpty ||
         dateC.text.isNotEmpty ||
         imageUrlStr.value.isNotEmpty) {
       try {
@@ -105,8 +120,15 @@ class TambahController extends GetxController {
               "id_asset": idAssetC.text,
               "name_asset": nameC.text,
               "desc_asset": descriptionC.text,
-              "pic_asset": picC.text,
+              "merk_asset": merkC.text,
+              "type_asset": typeC.text,
+              "serial_asset": serialC.text,
+              "PR": PRC.text,
+              "PO": POC.text,
+              "price": priceC.text,
               "tgl_beli": dateC.text,
+              "department": deptC.text,
+              "sloc": slocC.text,
               "user_created": userName.value,
               "created_at": DateTime.now().toIso8601String(),
               "imageUrl": imageUrlStr.value,
@@ -173,7 +195,7 @@ class TambahController extends GetxController {
   ///=================CEK VALIDASI==============
   String? validateidAsset(String value) {
     if (value.length <= 6 || value.isEmpty) {
-      return "ID Asset Wajib Diisi";
+      return null;
     }
     return null;
   }
@@ -192,9 +214,58 @@ class TambahController extends GetxController {
     return null;
   }
 
-  String? validatepic(String value) {
+  String? validatemerk(String value) {
     if (value.isEmpty) {
-      return "PIC Wajib Diisi";
+      return "Merk Wajib Diisi";
+    }
+    return null;
+  }
+
+  String? validatetype(String value) {
+    if (value.isEmpty) {
+      return "Type Wajib Diisi";
+    }
+    return null;
+  }
+
+  String? validateserial(String value) {
+    if (value.isEmpty) {
+      return "Type Wajib Diisi";
+    }
+    return null;
+  }
+
+  String? validatepr(String value) {
+    if (value.isEmpty) {
+      return "PR Wajib Diisi";
+    }
+    return null;
+  }
+
+  String? validatepo(String value) {
+    if (value.isEmpty) {
+      return "PO Wajib Diisi";
+    }
+    return null;
+  }
+
+  String? validateprice(String value) {
+    if (value.isEmpty) {
+      return "Harga Wajib Diisi";
+    }
+    return null;
+  }
+
+  String? validatedept(String value) {
+    if (value.isEmpty) {
+      return "Department Wajib Diisi";
+    }
+    return null;
+  }
+
+  String? validatesloc(String value) {
+    if (value.isEmpty) {
+      return "Storage Location Wajib Diisi";
     }
     return null;
   }
@@ -203,7 +274,7 @@ class TambahController extends GetxController {
     idAssetC.text = "";
     nameC.text = "";
     descriptionC.text = "";
-    picC.text = "";
+    merkC.text = "";
     dateC.text = "";
     imageUrlStr.value = "";
   }
@@ -225,7 +296,7 @@ class TambahController extends GetxController {
     idAssetC.dispose();
     nameC.dispose();
     descriptionC.dispose();
-    picC.dispose();
+    merkC.dispose();
     dateC.dispose();
     super.onClose();
   }
