@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'dart:async';
@@ -30,6 +31,9 @@ class TambahController extends GetxController {
   RxString kadiv = "".obs;
   RxList listImg = [].obs;
   RxList allItem = [].obs;
+  // RxList dataVal = [].obs;
+  RxList<Tdept> dataVal = <Tdept>[].obs;
+
   RxBool isSimpan = false.obs;
   RxBool isCondition = false.obs;
 
@@ -52,9 +56,12 @@ class TambahController extends GetxController {
   late File xfile;
   File? ambilGambar;
   late File imageFile;
+  final List<Tdept> department = [];
+  List<String> dataNote = [];
 
   Future<void> upload(ImageSource imageSource) async {
     isLoading.value = true;
+    var list = [];
 
     try {
       final picker = ImagePicker();
@@ -192,23 +199,25 @@ class TambahController extends GetxController {
 
       final error = result.error;
       List<Tdept> dataItem = Tdept.fromJsonList(result.data as List);
-      // var courier = dataItem[id];
-      allItem.value = List.from(dataItem);
 
-      List<Tdept> allItems = [];
-List<String> listTab = allItems(allItems);
-      map.forEach((key, val) {
-        listTab.add(val);
-      });
-      print(list);
+      dataItem.forEach(
+        (element) {
+          department.add(Tdept(
+            id: element.id,
+            kode: element.kode,
+            nama: element.nama,
+            kadept: element.kadept,
+            kadiv: element.kadiv,
+          ));
+        },
+      );
+      for (var element in department) {
+        dataNote.add(element.nama);
+      }
 
-      allItem.refresh();
-
-      print("==========");
-
-      // for (var element in allItem.value) {
-      //   print(element["nama"]);
-      // }
+      print("=====================");
+      print(dataNote);
+      return dataNote;
     } catch (err) {
       print(err);
       rethrow;
