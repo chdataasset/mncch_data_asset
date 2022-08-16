@@ -188,22 +188,27 @@ class TambahController extends GetxController {
           await client.from('tbl_department').select('').execute();
 
       final data = result.data;
-      print(result.data);
+      print(data);
 
       final error = result.error;
-      List dataNote = Tdept.fromJsonList(result.data as List);
-      List<Tdept> namaItem = [];
-      namaItem = List<Tdept>.from(dataNote);
-      allItem.refresh();
-//  dataNote.forEach(
-//               (element) {
-//                 namaItem.add(allItem(
+      List<Tdept> dataItem = Tdept.fromJsonList(result.data as List);
+      // var courier = dataItem[id];
+      allItem.value = List.from(dataItem);
 
-//               },
-//             );
+      List<Tdept> allItems = [];
+List<String> listTab = allItems(allItems);
+      map.forEach((key, val) {
+        listTab.add(val);
+      });
+      print(list);
+
+      allItem.refresh();
 
       print("==========");
-      // print(namaItem[nama]);
+
+      // for (var element in allItem.value) {
+      //   print(element["nama"]);
+      // }
     } catch (err) {
       print(err);
       rethrow;
