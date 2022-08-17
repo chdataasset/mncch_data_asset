@@ -1,4 +1,4 @@
-import 'package:dropdown_button2/custom_dropdown_button2.dart';
+import 'package:ch_data_asset/_assets/data/data_list.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -16,7 +16,6 @@ class TambahViewSmall extends GetView<TambahController> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    String? selectedValue;
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
@@ -335,77 +334,63 @@ class TambahViewSmall extends GetView<TambahController> {
                     SizedBox(
                       height: 10,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            "Department :",
-                            style: FreeSansBold,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
 
-                        // ======================DROPDOWN MENU==============
-                        Expanded(
-                          child: DropdownButtonFormField2<String>(
-                            decoration: InputDecoration(
-                              //Add isDense true and zero Padding.
-                              //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
-                              isDense: true,
-                              contentPadding: EdgeInsets.zero,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              //Add more decoration as you want here
-                              //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
-                            ),
-                            isExpanded: true,
-                            hint: const Text(
-                              'Department',
-                              style: TextStyle(fontSize: 14),
-                            ),
-                            icon: const Icon(
-                              Icons.arrow_drop_down,
-                              color: Colors.black45,
-                            ),
-                            iconSize: 30,
-                            buttonHeight: 60,
-                            buttonPadding:
-                                const EdgeInsets.only(left: 20, right: 10),
-                            dropdownDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            items: controller.dataNote
-                                .map((item) => DropdownMenuItem(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ))
-                                .toList(),
-                            validator: (value) {
-                              if (value == null) {
-                                return 'Please select Department.';
-                              }
-                            },
-                            onChanged: (value) {
-                              //Do something when changing the item if you want.
-                            },
-                            onSaved: (value) {
-                              selectedValue = value.toString();
-                            },
-                          ),
+                    // ======================DROPDOWN DEPARTMENT==============
+                    DropdownButtonFormField2<String>(
+                      decoration: InputDecoration(
+                        //Add isDense true and zero Padding.
+                        //Add Horizontal padding using buttonPadding and Vertical padding by increasing buttonHeight instead of add Padding here so that The whole TextField Button become clickable, and also the dropdown menu open under The whole TextField Button.
+                        isDense: true,
+                        contentPadding: EdgeInsets.zero,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                      ],
+                        //Add more decoration as you want here
+                        //Add label If you want but add hint outside the decoration to be aligned in the button perfectly.
+                      ),
+                      isExpanded: true,
+                      hint: Padding(
+                        padding: const EdgeInsets.only(left: 28.0),
+                        child: Text(
+                          "Department",
+                          style: FreeSansReg.copyWith(fontSize: 15),
+                        ),
+                      ),
+                      icon: const Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.black45,
+                      ),
+                      iconSize: 30,
+                      buttonHeight: 60,
+                      buttonPadding: const EdgeInsets.only(left: 20, right: 10),
+                      dropdownDecoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      items: Department.map((item) => DropdownMenuItem(
+                            value: item,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 28.0),
+                              child: Text(
+                                item,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          )).toList(),
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please select Department.';
+                        }
+                      },
+                      onChanged: (value) {
+                        controller.department.value = value!;
+                      },
+                      onSaved: (value) {
+                        controller.selectedValue.value = value!;
+                      },
                     ),
+
                     SizedBox(
                       height: 20,
                     ),
@@ -531,7 +516,10 @@ class TambahViewSmall extends GetView<TambahController> {
                                     height: 200,
                                     child: (controller
                                             .imageUrlStr.value.isNotEmpty)
-                                        ? Image.file(controller.xfile)
+                                        ? Image.file(
+                                            controller.xfile,
+                                            width: double.infinity,
+                                          )
                                         : Image.asset(
                                             "assets/images/noimage.png"),
                                   ),
