@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'dart:async';
@@ -19,17 +20,14 @@ class TambahController extends GetxController {
   RxString isiBarcode = "".obs;
   RxString imageUrl = "".obs;
   RxBool isLoading = false.obs;
+
   RxString filepath = "".obs;
   RxString imageUrlStr = "".obs;
   RxString sourceImg = "".obs;
+  RxString department = "".obs;
   RxString selectedValue = "".obs;
-  RxInt id = 0.obs;
-  RxString kode = "".obs;
-  RxString nama = "".obs;
-  RxString kadept = "".obs;
-  RxString kadiv = "".obs;
-  RxList listImg = [].obs;
-  RxList allItem = [].obs;
+  // RxList dataVal = [].obs;
+
   RxBool isSimpan = false.obs;
   RxBool isCondition = false.obs;
 
@@ -52,9 +50,14 @@ class TambahController extends GetxController {
   late File xfile;
   File? ambilGambar;
   late File imageFile;
+  // final List<Tdept> modelDept = [];
+  // List<String> department = [];
+  // final List<Tdept> modelSloc = [];
+  // List<String> StorageLoc = [];
 
   Future<void> upload(ImageSource imageSource) async {
     isLoading.value = true;
+    var list = [];
 
     try {
       final picker = ImagePicker();
@@ -182,38 +185,77 @@ class TambahController extends GetxController {
     }
   }
 
-  dynamic getItem() async {
-    try {
-      PostgrestResponse<dynamic> result =
-          await client.from('tbl_department').select('').execute();
+  // dynamic getDept() async {
+  //   try {
+  //     PostgrestResponse<dynamic> result =
+  //         await client.from('tbl_department').select('').execute();
 
-      final data = result.data;
-      print(data);
+  //     final data = result.data;
 
-      final error = result.error;
-      List<Tdept> dataItem = Tdept.fromJsonList(result.data as List);
-      // var courier = dataItem[id];
-      allItem.value = List.from(dataItem);
+  //     final error = result.error;
+  //     List<Tdept> dataItem = Tdept.fromJsonList(result.data as List);
+  //     if (modelDept.length == 0) {
+  //       print("kosong");
+  //       dataItem.forEach(
+  //         (element) {
+  //           modelDept.add(Tdept(
+  //             id: element.id,
+  //             kode: element.kode,
+  //             nama: element.nama,
+  //             kadept: element.kadept,
+  //             kadiv: element.kadiv,
+  //           ));
+  //         },
+  //       );
+  //       for (var element in modelDept) {
+  //         department.add(element.nama);
+  //       }
+  //       print(department.length);
+  //     }
 
-      List<Tdept> allItems = [];
-// List<String> listTab = allItems(allItems);
-//       map.forEach((key, val) {
-//         listTab.add(val);
-//       });
-//       print(list);
+  //     // print("=====================");
+  //     // print(department);
+  //     return department;
+  //   } catch (err) {
+  //     print(err);
+  //     return [];
+  //   }
+  // }
 
-      allItem.refresh();
+  // dynamic getSloc() async {
+  //   try {
+  //     PostgrestResponse<dynamic> result =
+  //         await client.from('tbl_department').select('').execute();
 
-      print("==========");
+  //     final data = result.data;
+  //     print(data);
 
-      // for (var element in allItem.value) {
-      //   print(element["nama"]);
-      // }
-    } catch (err) {
-      print(err);
-      rethrow;
-    }
-  }
+  //     final error = result.error;
+  //     List<Tdept> dataItem = Tdept.fromJsonList(result.data as List);
+  //     // modelDept.clear();
+  //     dataItem.forEach(
+  //       (element) {
+  //         modelDept.add(Tdept(
+  //           id: element.id,
+  //           kode: element.kode,
+  //           nama: element.nama,
+  //           kadept: element.kadept,
+  //           kadiv: element.kadiv,
+  //         ));
+  //       },
+  //     );
+  //     for (var element in modelDept) {
+  //       department.add(element.nama);
+  //     }
+
+  //     print("=====================");
+  //     print(department.length);
+  //     return department;
+  //   } catch (err) {
+  //     print(err);
+  //     return [];
+  //   }
+  // }
 
   ///=================CEK VALIDASI==============
   String? validateidAsset(String value) {
@@ -306,7 +348,8 @@ class TambahController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getItem();
+    // getDept();
+    // getSloc();
   }
 
   @override
@@ -317,10 +360,18 @@ class TambahController extends GetxController {
   @override
   void onClose() {
     // TODO: implement onClose
+
     idAssetC.dispose();
     nameC.dispose();
     descriptionC.dispose();
     merkC.dispose();
+    typeC.dispose();
+    serialC.dispose();
+    PRC.dispose();
+    POC.dispose();
+    priceC.dispose();
+    deptC.dispose();
+    slocC.dispose();
     dateC.dispose();
     super.onClose();
   }
