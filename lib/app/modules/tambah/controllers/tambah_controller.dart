@@ -196,11 +196,11 @@ class TambahController extends GetxController {
       allItem.value = List.from(dataItem);
 
       List<Tdept> allItems = [];
-List<String> listTab = allItems(allItems);
-      map.forEach((key, val) {
-        listTab.add(val);
-      });
-      print(list);
+// List<String> listTab = allItems(allItems);
+//       map.forEach((key, val) {
+//         listTab.add(val);
+//       });
+//       print(list);
 
       allItem.refresh();
 
