@@ -85,7 +85,6 @@ class LoginController extends GetxController {
   void onInit() {
     // Simulating obtaining the user name from some local storage
     super.onInit();
-
     emailC = TextEditingController();
     passwordC = TextEditingController();
   }

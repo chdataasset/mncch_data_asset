@@ -129,8 +129,8 @@ class TambahViewSmall extends GetView<TambahController> {
                       height: 10,
                     ),
                     TextFormField(
-                      minLines: 5,
-                      maxLines: 5,
+                      minLines: 2,
+                      maxLines: 4,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -418,29 +418,81 @@ class TambahViewSmall extends GetView<TambahController> {
                     SizedBox(
                       height: 20,
                     ),
+                    // ============CONDITION====================
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          "Condition :",
-                          style: FreeSansReg,
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            "Condition :",
+                            style: FreeSansReg,
+                          ),
                         ),
-                        Obx(() => FlutterSwitch(
-                            width: 75.0,
-                            height: 35.0,
-                            valueFontSize: 25.0,
-                            toggleSize: 20.0,
-                            value: controller.isCondition.value,
-                            borderRadius: 30.0,
-                            padding: 8.0,
-                            showOnOff: false,
-                            onToggle: (val) {
-                              controller.isCondition.value = val;
-                            })),
+                        Expanded(
+                          flex: 1,
+                          child: Text("Good"),
+                        ),
+                        Obx(() => Expanded(
+                              flex: 1,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: FlutterSwitch(
+                                    width: 75.0,
+                                    height: 35.0,
+                                    valueFontSize: 25.0,
+                                    activeColor: Colors.red,
+                                    toggleSize: 20.0,
+                                    value: controller.isCondition.value,
+                                    borderRadius: 30.0,
+                                    padding: 8.0,
+                                    showOnOff: false,
+                                    onToggle: (val) {
+                                      controller.isCondition.value = val;
+                                    }),
+                              ),
+                            )),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Text("Broken"),
+                        ),
                         SizedBox(
                           height: 20.0,
                         ),
                       ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Obx(
+                      () => TextFormField(
+                        enabled: (controller.isCondition.value) ? true : false,
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            labelText: "Reason Broken",
+                            prefixIcon: Icon(Icons.broken_image_sharp)),
+                        minLines: 2,
+                        maxLines: 4,
+                        autocorrect: false,
+                        keyboardType: TextInputType.name,
+                        controller: controller.brokenC,
+                        onChanged: (value) {
+                          value = controller.brokenC.text;
+                        },
+                        onSaved: (value) {
+                          controller.brokenC.text = value!;
+                        },
+                        validator: (value) {
+                          if (controller.isCondition.value == true) {
+                            return controller.validatebroken(value!);
+                          }
+                        },
+                      ),
                     ),
                     SizedBox(
                       height: 20,

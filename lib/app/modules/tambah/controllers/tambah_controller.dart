@@ -31,6 +31,7 @@ class TambahController extends GetxController {
   RxBool isSimpan = false.obs;
   RxBool isCondition = false.obs;
 
+
   TextEditingController idAssetC = TextEditingController();
   TextEditingController nameC = TextEditingController();
   TextEditingController descriptionC = TextEditingController();
@@ -42,6 +43,7 @@ class TambahController extends GetxController {
   TextEditingController priceC = TextEditingController();
   TextEditingController deptC = TextEditingController();
   TextEditingController slocC = TextEditingController();
+  TextEditingController brokenC = TextEditingController();
   TextEditingController dateC = TextEditingController();
 
   final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
@@ -331,6 +333,13 @@ class TambahController extends GetxController {
   String? validatesloc(String value) {
     if (value.isEmpty) {
       return "Storage Location Wajib Diisi";
+    }
+    return null;
+  }
+
+  String? validatebroken(String value) {
+    if (value.isEmpty) {
+      return "Reason Broken Wajib Diisi";
     }
     return null;
   }
