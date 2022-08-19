@@ -31,7 +31,6 @@ class TambahController extends GetxController {
   RxBool isSimpan = false.obs;
   RxBool isCondition = false.obs;
 
-
   TextEditingController idAssetC = TextEditingController();
   TextEditingController nameC = TextEditingController();
   TextEditingController descriptionC = TextEditingController();
@@ -113,19 +112,19 @@ class TambahController extends GetxController {
   void simpan() async {
     isLoading.value = true;
     userName.value = client.auth.currentUser!.id;
-    if (idAssetC.text.isNotEmpty ||
-        nameC.text.isNotEmpty ||
-        descriptionC.text.isNotEmpty ||
-        merkC.text.isNotEmpty ||
-        typeC.text.isNotEmpty ||
-        serialC.text.isNotEmpty ||
-        PRC.text.isNotEmpty ||
-        POC.text.isNotEmpty ||
-        priceC.text.isNotEmpty ||
-        deptC.text.isNotEmpty ||
-        slocC.text.isNotEmpty ||
-        dateC.text.isNotEmpty ||
-        imageUrlStr.value.isNotEmpty) {
+    if (idAssetC.text.isNotEmpty || nameC.text.isNotEmpty
+        // descriptionC.text.isNotEmpty ||
+        // merkC.text.isNotEmpty ||
+        // typeC.text.isNotEmpty ||
+        // serialC.text.isNotEmpty ||
+        // PRC.text.isNotEmpty ||
+        // POC.text.isNotEmpty ||
+        // priceC.text.isNotEmpty ||
+        // deptC.text.isNotEmpty ||
+        // slocC.text.isNotEmpty ||
+        // dateC.text.isNotEmpty ||
+        // imageUrlStr.value.isNotEmpty
+        ) {
       try {
         await simpanGambar(filepath.value, filebytes);
         await client
@@ -133,16 +132,21 @@ class TambahController extends GetxController {
             .insert({
               "id_asset": idAssetC.text,
               "name_asset": nameC.text,
-              "desc_asset": descriptionC.text,
-              "merk_asset": merkC.text,
-              "type_asset": typeC.text,
-              "serial_asset": serialC.text,
-              "PR": PRC.text,
-              "PO": POC.text,
-              "price": priceC.text,
-              "tgl_beli": dateC.text,
-              "department": deptC.text,
-              "sloc": slocC.text,
+              "desc_asset":
+                  (descriptionC.text == null) ? "-" : descriptionC.text,
+              "merk": (merkC.text == null) ? "-" : merkC.text,
+              "type": (typeC.text == null) ? "-" : typeC.text,
+              "serial_number": (serialC.text == null) ? "-" : serialC.text,
+              "purc_request": (PRC.text == null) ? "-" : PRC.text,
+              "purc_order": (POC.text == null) ? "-" : POC.text,
+              "price": (priceC.text == null) ? 0 : priceC.text,
+              "tgl_beli": (dateC.text == null)
+                  ? DateTime.now().toIso8601String()
+                  : dateC.text,
+              "department": (deptC.text == null) ? "-" : dateC.text,
+              "sloc": (slocC.text == null) ? "-" : slocC.text,
+              "condition": isCondition.value,
+              "reason": brokenC.text,
               "user_created": userName.value,
               "created_at": DateTime.now().toIso8601String(),
               "imageUrl": imageUrlStr.value,

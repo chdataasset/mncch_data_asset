@@ -130,7 +130,7 @@ class TambahViewSmall extends GetView<TambahController> {
                     ),
                     TextFormField(
                       minLines: 2,
-                      maxLines: 4,
+                      maxLines: 2,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -148,7 +148,7 @@ class TambahViewSmall extends GetView<TambahController> {
                         controller.descriptionC.text = value!;
                       },
                       validator: (value) {
-                        return controller.validateDescription(value!);
+                        // return controller.validateDescription(value!);
                       },
                     ),
                     SizedBox(
@@ -159,7 +159,7 @@ class TambahViewSmall extends GetView<TambahController> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        labelText: "Brand",
+                        labelText: "MerkMerMerk",
                         prefixIcon: Icon(Icons.branding_watermark),
                       ),
                       autocorrect: false,
@@ -172,7 +172,7 @@ class TambahViewSmall extends GetView<TambahController> {
                         controller.merkC.text = value!;
                       },
                       validator: (value) {
-                        return controller.validatemerk(value!);
+                        // return controller.validatemerk(value!);
                       },
                     ),
                     SizedBox(
@@ -196,7 +196,7 @@ class TambahViewSmall extends GetView<TambahController> {
                         controller.typeC.text = value!;
                       },
                       validator: (value) {
-                        return controller.validatetype(value!);
+                        // return controller.validatetype(value!);
                       },
                     ),
                     SizedBox(
@@ -220,7 +220,7 @@ class TambahViewSmall extends GetView<TambahController> {
                         controller.serialC.text = value!;
                       },
                       validator: (value) {
-                        return controller.validateserial(value!);
+                        // return controller.validateserial(value!);
                       },
                     ),
                     SizedBox(
@@ -244,7 +244,7 @@ class TambahViewSmall extends GetView<TambahController> {
                         controller.PRC.text = value!;
                       },
                       validator: (value) {
-                        return controller.validatepr(value!);
+                        // return controller.validatepr(value!);
                       },
                     ),
                     SizedBox(
@@ -268,7 +268,7 @@ class TambahViewSmall extends GetView<TambahController> {
                         controller.POC.text = value!;
                       },
                       validator: (value) {
-                        return controller.validatepo(value!);
+                        // return controller.validatepo(value!);
                       },
                     ),
                     SizedBox(
@@ -299,7 +299,7 @@ class TambahViewSmall extends GetView<TambahController> {
                         controller.priceC.text = value!;
                       },
                       validator: (value) {
-                        return controller.validateprice(value!);
+                        // return controller.validateprice(value!);
                       },
                     ),
                     SizedBox(
@@ -379,9 +379,9 @@ class TambahViewSmall extends GetView<TambahController> {
                             ),
                           )).toList(),
                       validator: (value) {
-                        if (value == null) {
-                          return 'Please select Department.';
-                        }
+                        // if (value == null) {
+                        //   return 'Please select Department.';
+                        // }
                       },
                       onChanged: (value) {
                         controller.department.value = value!;
@@ -412,7 +412,7 @@ class TambahViewSmall extends GetView<TambahController> {
                         controller.slocC.text = value!;
                       },
                       validator: (value) {
-                        return controller.validatesloc(value!);
+                        // return controller.validatesloc(value!);
                       },
                     ),
                     SizedBox(
@@ -488,9 +488,9 @@ class TambahViewSmall extends GetView<TambahController> {
                           controller.brokenC.text = value!;
                         },
                         validator: (value) {
-                          if (controller.isCondition.value == true) {
-                            return controller.validatebroken(value!);
-                          }
+                          // if (controller.isCondition.value == true) {
+                          //   return controller.validatebroken(value!);
+                          // }
                         },
                       ),
                     ),

@@ -44,7 +44,7 @@ class DetailitemController extends GetxController {
     idAssetT.value = itemBody.idAsset;
     nameT.value = itemBody.nameAsset;
     descriptionT.value = itemBody.descAsset;
-    picT.value = itemBody.picAsset;
+
     dateT.value = itemBody.tglBeli;
     imageUrlT.value = itemBody.imageUrl;
   }
@@ -104,11 +104,10 @@ class DetailitemController extends GetxController {
         idAssetT.value = item.idAsset;
         nameT.value = item.nameAsset;
         descriptionT.value = item.descAsset;
-        picT.value = item.picAsset;
+
         dateT.value = item.tglBeli;
         imageUrlT.value = item.imageUrl;
       }
-      
     } catch (err) {
       print(err);
     }

@@ -1,12 +1,20 @@
 {
-    "id":1,
-    "id_asset":"",
-    "name_asset":"",
-    "desc_asset":"",
-    "pic_asset":"",
-    "tgl_beli":"",
-    "user_created":"",
-    "created_at":"",
-    "imageUrl":""
-
+    "id": 1,
+    "id_asset": "",
+    "name_asset": "",
+    "desc_asset": "",
+    "user_created": "",
+    "created_at": "",
+    "tgl_beli": "",
+    "imageUrl": "",
+    "merk": "",
+    "type": "",
+    "serial_number": "",
+    "purc_request": "",
+    "purc_order": "",
+    "price": 1,
+    "department": "",
+    "sloc": "",
+    "condition": true,
+    "reason": ""
 }
