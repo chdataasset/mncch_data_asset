@@ -3,15 +3,16 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'dart:async';
-import 'dart:typed_data';
 
+import 'dart:typed_data';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:ch_data_asset/_assets/data/struc/tbl_department.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
+import 'package:pattern_formatter/pattern_formatter.dart';
 import '../../../../_assets/constant.dart';
 import '../../../../_assets/data/struc/tbl_user.dart';
 
@@ -51,6 +52,7 @@ class TambahController extends GetxController {
   late File xfile;
   File? ambilGambar;
   late File imageFile;
+
   // final List<Tdept> modelDept = [];
   // List<String> department = [];
   // final List<Tdept> modelSloc = [];
@@ -112,10 +114,11 @@ class TambahController extends GetxController {
   void simpan() async {
     isLoading.value = true;
     userName.value = client.auth.currentUser!.id;
-    if (idAssetC.text.isNotEmpty || nameC.text.isNotEmpty
-        // descriptionC.text.isNotEmpty ||
-        // merkC.text.isNotEmpty ||
-        // typeC.text.isNotEmpty ||
+    if ((idAssetC.text.isNotEmpty && idAssetC.text != null) &&
+        (nameC.text.isNotEmpty && nameC.text != null) &&
+        // descriptionC.text.isNotEmpty ||descriptionC.text!=null||
+        // merkC.text.isNotEmpty ||merkC.text!=null||
+        // typeC.text.isNotEmpty || typeC.text!=null||
         // serialC.text.isNotEmpty ||
         // PRC.text.isNotEmpty ||
         // POC.text.isNotEmpty ||
@@ -123,30 +126,30 @@ class TambahController extends GetxController {
         // deptC.text.isNotEmpty ||
         // slocC.text.isNotEmpty ||
         // dateC.text.isNotEmpty ||
-        // imageUrlStr.value.isNotEmpty
-        ) {
+        (imageUrlStr.value.isNotEmpty && imageUrlStr.value != null)) {
       try {
         await simpanGambar(filepath.value, filebytes);
+
         await client
             .from("tbl_masteritem")
             .insert({
               "id_asset": idAssetC.text,
               "name_asset": nameC.text,
               "desc_asset":
-                  (descriptionC.text == null) ? "-" : descriptionC.text,
-              "merk": (merkC.text == null) ? "-" : merkC.text,
-              "type": (typeC.text == null) ? "-" : typeC.text,
-              "serial_number": (serialC.text == null) ? "-" : serialC.text,
-              "purc_request": (PRC.text == null) ? "-" : PRC.text,
-              "purc_order": (POC.text == null) ? "-" : POC.text,
-              "price": (priceC.text == null) ? 0 : priceC.text,
-              "tgl_beli": (dateC.text == null)
+                  (descriptionC.text.isEmpty) ? "" : descriptionC.text,
+              "merk": (merkC.text.isEmpty) ? "" : merkC.text,
+              "type": (typeC.text.isEmpty) ? "" : typeC.text,
+              "serial_number": (serialC.text.isEmpty) ? "" : serialC.text,
+              "purc_request": (PRC.text.isEmpty) ? "" : PRC.text,
+              "purc_order": (POC.text.isEmpty) ? "" : POC.text,
+              "price": (priceC.text.isEmpty) ? "0.0" : priceC.text,
+              "tgl_beli": (dateC.text.isEmpty)
                   ? DateTime.now().toIso8601String()
                   : dateC.text,
-              "department": (deptC.text == null) ? "-" : dateC.text,
-              "sloc": (slocC.text == null) ? "-" : slocC.text,
+              "department": (deptC.text.isEmpty) ? "" : dateC.text,
+              "sloc": (slocC.text.isEmpty) ? "" : slocC.text,
               "condition": isCondition.value,
-              "reason": brokenC.text,
+              "reason": (brokenC.text.isEmpty) ? "" : brokenC.text,
               "user_created": userName.value,
               "created_at": DateTime.now().toIso8601String(),
               "imageUrl": imageUrlStr.value,
@@ -167,11 +170,18 @@ class TambahController extends GetxController {
               }
             });
       } catch (err) {
-        print("err");
+        print(err);
         errorDialog;
       }
     } else {
-      errorDialog;
+      print("gak komplit");
+      Get.defaultDialog(
+          title: "Error",
+          middleText: "ID/Nama/Gambar Harus Diisi",
+          textConfirm: "Ok",
+          onConfirm: () {
+            Get.back();
+          });
     }
 
     isLoading.value = false;
@@ -190,78 +200,6 @@ class TambahController extends GetxController {
       Get.back();
     }
   }
-
-  // dynamic getDept() async {
-  //   try {
-  //     PostgrestResponse<dynamic> result =
-  //         await client.from('tbl_department').select('').execute();
-
-  //     final data = result.data;
-
-  //     final error = result.error;
-  //     List<Tdept> dataItem = Tdept.fromJsonList(result.data as List);
-  //     if (modelDept.length == 0) {
-  //       print("kosong");
-  //       dataItem.forEach(
-  //         (element) {
-  //           modelDept.add(Tdept(
-  //             id: element.id,
-  //             kode: element.kode,
-  //             nama: element.nama,
-  //             kadept: element.kadept,
-  //             kadiv: element.kadiv,
-  //           ));
-  //         },
-  //       );
-  //       for (var element in modelDept) {
-  //         department.add(element.nama);
-  //       }
-  //       print(department.length);
-  //     }
-
-  //     // print("=====================");
-  //     // print(department);
-  //     return department;
-  //   } catch (err) {
-  //     print(err);
-  //     return [];
-  //   }
-  // }
-
-  // dynamic getSloc() async {
-  //   try {
-  //     PostgrestResponse<dynamic> result =
-  //         await client.from('tbl_department').select('').execute();
-
-  //     final data = result.data;
-  //     print(data);
-
-  //     final error = result.error;
-  //     List<Tdept> dataItem = Tdept.fromJsonList(result.data as List);
-  //     // modelDept.clear();
-  //     dataItem.forEach(
-  //       (element) {
-  //         modelDept.add(Tdept(
-  //           id: element.id,
-  //           kode: element.kode,
-  //           nama: element.nama,
-  //           kadept: element.kadept,
-  //           kadiv: element.kadiv,
-  //         ));
-  //       },
-  //     );
-  //     for (var element in modelDept) {
-  //       department.add(element.nama);
-  //     }
-
-  //     print("=====================");
-  //     print(department.length);
-  //     return department;
-  //   } catch (err) {
-  //     print(err);
-  //     return [];
-  //   }
-  // }
 
   ///=================CEK VALIDASI==============
   String? validateidAsset(String value) {
@@ -349,20 +287,26 @@ class TambahController extends GetxController {
   }
 
   clearText() {
-    idAssetC.text = "";
-    nameC.text = "";
-    descriptionC.text = "";
-    merkC.text = "";
-    dateC.text = "";
-    imageUrlStr.value = "";
+    // idAssetC.text = "";
+    // nameC.text = "";
+    // descriptionC.text = "";
+    // merkC.text = "";
+    // typeC.text = "";
+    // serialC.text = "";
+    // PRC.text = "";
+    // POC.text = "";
+    // priceC.text = "";
+    // deptC.text = "";
+    // slocC.text = "";
+    // brokenC.text = "";
+    // dateC.text = "";
+    // imageUrlStr.value = "";
   }
 
   ///=================INIT CLOSE==============
   @override
   void onInit() {
     super.onInit();
-    // getDept();
-    // getSloc();
   }
 
   @override

@@ -2,8 +2,8 @@ import 'package:ch_data_asset/_assets/data/data_list.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:pattern_formatter/pattern_formatter.dart';
 import '../../../../_assets/constant.dart';
-import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
@@ -159,7 +159,7 @@ class TambahViewSmall extends GetView<TambahController> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        labelText: "MerkMerMerk",
+                        labelText: "Merk",
                         prefixIcon: Icon(Icons.branding_watermark),
                       ),
                       autocorrect: false,
@@ -282,13 +282,7 @@ class TambahViewSmall extends GetView<TambahController> {
                         labelText: "Price",
                         prefixIcon: Icon(Icons.wallet),
                       ),
-                      inputFormatters: [
-                        CurrencyTextInputFormatter(
-                          locale: "id",
-                          decimalDigits: 0,
-                          symbol: 'Rp. ',
-                        )
-                      ],
+                      inputFormatters: [ThousandsFormatter()],
                       autocorrect: false,
                       keyboardType: TextInputType.number,
                       controller: controller.priceC,

@@ -44,7 +44,7 @@ class TblMasterItem {
   String serialNumber;
   String purcRequest;
   String purcOrder;
-  double price;
+  String price;
   String department;
   String sloc;
   bool condition;
