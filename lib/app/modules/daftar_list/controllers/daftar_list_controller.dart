@@ -15,12 +15,13 @@ class DaftarListController extends GetxController {
 
     SupabaseClient client = Supabase.instance.client;
     try {
+      print("oke");
       PostgrestResponse response = await client
           .from('tbl_masteritem')
           .select()
           .order('id_asset', ascending: true)
           .execute();
-
+      ;
       final data = response.data;
       final error = response.status;
 
@@ -30,7 +31,6 @@ class DaftarListController extends GetxController {
       getAllData.value = List.from(dataItem);
 
       getAllData.refresh();
-      print(getAllData.length);
 
       isloading.value = false;
     } catch (err) {

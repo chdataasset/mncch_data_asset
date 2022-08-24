@@ -1,4 +1,4 @@
-// To parse required this JSON data, do
+// To parse this JSON data, do
 //
 //     final tblMasterItem = tblMasterItemFromJson(jsonString);
 
@@ -64,7 +64,7 @@ class TblMasterItem {
         serialNumber: json["serial_number"],
         purcRequest: json["purc_request"],
         purcOrder: json["purc_order"],
-        price: json["price"].toDouble(),
+        price: json["price"],
         department: json["department"],
         sloc: json["sloc"],
         condition: json["condition"],
@@ -91,6 +91,7 @@ class TblMasterItem {
         "condition": condition,
         "reason": reason,
       };
+
   static List<TblMasterItem> fromJsonList(List list) {
     if (list == null) return List<TblMasterItem>.empty();
     return list.map((item) => TblMasterItem.fromJson(item)).toList();

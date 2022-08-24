@@ -12,17 +12,17 @@ class DaftarListViewSmall extends GetView<DaftarListController> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    return SafeArea(
-      child: SingleChildScrollView(
+    return Scaffold(
+      body: SingleChildScrollView(
         child: Container(
-          width: width,
-          height: height,
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.centerRight,
-                colors: [Colors.red, Colors.purple]),
-          ),
+          width: double.infinity,
+          height: double.maxFinite,
+          // decoration: BoxDecoration(
+          //   gradient: const LinearGradient(
+          //       begin: Alignment.topLeft,
+          //       end: Alignment.centerRight,
+          //       colors: [Colors.red, Colors.purple]),
+          // ),
           child: FutureBuilder(
             future: controller.getData(),
             builder: ((context, snapshot) {
@@ -43,7 +43,6 @@ class DaftarListViewSmall extends GetView<DaftarListController> {
                         onRefresh: () => controller.getData(),
                         child: (controller.isloading.value)
                             ? const Center(child: CircularProgressIndicator())
-                            // : Text("loading")
                             : SafeArea(
                                 child: ListView.builder(
                                     itemCount: controller.getAllData().length,
@@ -51,7 +50,7 @@ class DaftarListViewSmall extends GetView<DaftarListController> {
                                       TblMasterItem itemBody =
                                           controller.getAllData[index];
                                       return Padding(
-                                        padding: const EdgeInsets.all(5.0),
+                                        padding: const EdgeInsets.all(2.0),
                                         child: InkWell(
                                           onTap: () {
                                             Get.toNamed(Routes.DETAILITEM,
@@ -69,62 +68,79 @@ class DaftarListViewSmall extends GetView<DaftarListController> {
                                                     padding:
                                                         const EdgeInsets.all(
                                                             3.0),
-                                                    child: Container(
-                                                      height: double.maxFinite,
-                                                      width: 100,
-
-                                                      decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                              width: 3,
-                                                              color: Colors
-                                                                  .white)),
-                                                      // child: Text(
-                                                      //     "${BaseUrl.cPathImgUrl}${itemBody.imageUrl}")
-                                                      child: Image.network(
-                                                        "${BaseUrl.cPathImgUrl}${itemBody.imageUrl}",
-                                                        fit: BoxFit.fill,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 10.0,
-                                                            bottom: 2,
-                                                            right: 2),
-                                                    child: Column(
+                                                    child: Row(
                                                       children: [
-                                                        SizedBox(
-                                                          // height: 30,
-                                                          width: 250,
-                                                          child: Align(
-                                                            alignment: Alignment
-                                                                .centerLeft,
-                                                            child: Text(
-                                                              "${itemBody.nameAsset} ",
-                                                              style: const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 20),
-                                                            ),
+                                                        Container(
+                                                          height:
+                                                              double.maxFinite,
+                                                          width: 100,
+
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border.all(
+                                                                width: 3,
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                          // child: Text(
+                                                          //     "${BaseUrl.cPathImgUrl}${itemBody.imageUrl}")
+                                                          child: Image.network(
+                                                            "${BaseUrl.cPathImgUrl}${itemBody.imageUrl}",
+                                                            fit: BoxFit.fill,
                                                           ),
                                                         ),
-                                                        const SizedBox(
-                                                          height: 1,
-                                                        ),
                                                         SizedBox(
-                                                          width: 250,
-                                                          child: Text(
-                                                            itemBody.descAsset,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                          ),
+                                                          width: 5,
                                                         ),
+                                                        Container(
+                                                            child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  left: 10.0,
+                                                                  bottom: 2,
+                                                                  right: 2),
+                                                          child: Column(
+                                                            children: [
+                                                              SizedBox(
+                                                                // height: 30,
+                                                                width: 250,
+                                                                child: Text(
+                                                                    "${itemBody.idAsset} ",
+                                                                    style: FreeSansBold
+                                                                        .copyWith(
+                                                                            color:
+                                                                                Colors.black87)),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 2,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 250,
+                                                                child: Text(
+                                                                  itemBody
+                                                                      .nameAsset,
+                                                                  style:
+                                                                      FreeSansReg,
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 3,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 250,
+                                                                child: Text(
+                                                                  itemBody.sloc,
+                                                                  style:
+                                                                      FreeSansReg,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        )),
                                                       ],
                                                     ),
-                                                  )
+                                                  ),
                                                 ],
                                               )),
                                         ),

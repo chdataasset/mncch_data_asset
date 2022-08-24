@@ -12,6 +12,11 @@ class DaftarListView extends GetView<DaftarListController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     controller.getAllData();
+      //   },
+      // ),
       appBar: AppBar(
         title: Text('Daftar Barang'),
         centerTitle: true,

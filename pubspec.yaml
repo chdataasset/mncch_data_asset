@@ -24,7 +24,8 @@ dependencies:
   currency_text_input_formatter: ^2.1.7
   dropdown_button2: ^1.7.2
   pattern_formatter: ^2.0.0
-  supabase: ^0.3.6
+  persistent_bottom_nav_bar: ^4.0.2
+
 
 
 dev_dependencies:
