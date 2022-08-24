@@ -18,10 +18,7 @@ class DaftarListViewSmall extends GetView<DaftarListController> {
           width: width,
           height: height,
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.centerRight,
-                colors: [Colors.red, Colors.purple]),
+        color: Colors.white,
           ),
           child: FutureBuilder(
             future: controller.getData(),
