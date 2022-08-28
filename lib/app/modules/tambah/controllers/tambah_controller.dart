@@ -25,8 +25,9 @@ class TambahController extends GetxController {
   RxString filepath = "".obs;
   RxString imageUrlStr = "".obs;
   RxString sourceImg = "".obs;
-  RxString department = "".obs;
-  RxString selectedValue = "".obs;
+  RxString department = "Select Item".obs;
+  RxString selectedValue = "Select Item".obs;
+  //  final selected = "some book type".obs
   // RxList dataVal = [].obs;
 
   RxBool isSimpan = false.obs;
@@ -57,6 +58,10 @@ class TambahController extends GetxController {
   // List<String> department = [];
   // final List<Tdept> modelSloc = [];
   // List<String> StorageLoc = [];
+
+   void setSelected(String value){
+     selectedValue.value = value;
+   }
 
   Future<void> upload(ImageSource imageSource) async {
     isLoading.value = true;
@@ -146,7 +151,7 @@ class TambahController extends GetxController {
               "tgl_beli": (dateC.text.isEmpty)
                   ? DateTime.now().toIso8601String()
                   : dateC.text,
-              "department": (deptC.text.isEmpty) ? "" : dateC.text,
+              "department": (deptC.text.isEmpty) ? "" : department.value,
               "sloc": (slocC.text.isEmpty) ? "" : slocC.text,
               "condition": isCondition.value,
               "reason": (brokenC.text.isEmpty) ? "" : brokenC.text,
@@ -157,7 +162,6 @@ class TambahController extends GetxController {
             .execute()
             .then((value) {
               if (value.data != null) {
-                print("berhasil");
                 Get.defaultDialog(
                     title: "Success",
                     middleText: "Data Telah Tersimpan",
@@ -166,6 +170,7 @@ class TambahController extends GetxController {
                       clearText();
                       Get.back();
                     });
+                clearText();
                 isSimpan.value = true;
               }
             });
@@ -287,20 +292,21 @@ class TambahController extends GetxController {
   }
 
   clearText() {
-    // idAssetC.text = "";
-    // nameC.text = "";
-    // descriptionC.text = "";
-    // merkC.text = "";
-    // typeC.text = "";
-    // serialC.text = "";
-    // PRC.text = "";
-    // POC.text = "";
-    // priceC.text = "";
-    // deptC.text = "";
-    // slocC.text = "";
-    // brokenC.text = "";
-    // dateC.text = "";
-    // imageUrlStr.value = "";
+    idAssetC.text = "";
+    nameC.text = "";
+    descriptionC.text = "";
+    merkC.text = "";
+    typeC.text = "";
+    serialC.text = "";
+    PRC.text = "";
+    POC.text = "";
+    priceC.text = "";
+    dateC.text = "";
+    department.value = "";
+    slocC.text = "";
+    isCondition.value = false;
+    brokenC.text = "";
+    imageUrlStr.value = "";
   }
 
   ///=================INIT CLOSE==============
@@ -329,6 +335,7 @@ class TambahController extends GetxController {
     priceC.dispose();
     deptC.dispose();
     slocC.dispose();
+    brokenC.dispose();
     dateC.dispose();
     super.onClose();
   }
